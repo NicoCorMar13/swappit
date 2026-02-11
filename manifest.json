@@ -3,13 +3,13 @@
     "short_name": "GS",
     "icons": [
         {
-            "src": "/swappit/Iconos/icono_192.png",
+            "src": "Iconos/icono_192.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "maskable"
         },
         {
-            "src": "/Iconos/icono_512.png",
+            "src": "Iconos/icono_512.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
