@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="icon" type="image/png" href="/Iconos/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/Iconos/favicon.svg" />
+    <link rel="shortcut icon" href="/Iconos/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/Iconos/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="GameSwap" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <title>GameSwap</title>
+</head>
+
+<body>
+    <header class="barraSuperior">
+        <div class="barraSuperior_inner">
+            <h1 class="marca">AYUDA</h1>
+            <select name="selector" id="selectorPaginas" onchange="location.href=this.value">
+                <option value="" selected disabled hidden>Sitios</option>
+                <option value="/index.html">Inicio</option>
+                <option value="/perfil.html">Perfil</option>
+                <option value="/misJuegos.html">Mis Juegos</option>
+                <option value="/chats.html">Chats</option>
+                <option value="/favoritos.html">Favoritos</option>
+            </select>
+        </div>
+    </header>
+    <main>
+        <section id="contacto" class="section contacto">
+            <form class="contact_form" id="contact">
+                <div class="form_user">
+                    <label for="name">Nombre</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form_email">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form_message">
+                    <label for="message">Mensaje</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <input type="text" name="website" id="website" style="display:none" tabindex="-1"
+                    autocomplete="off"><!--Campo oculto para detectar bots, si se rellena es que es un bot, por eso se oculta con display none, y el tabindex -1 es para que no se pueda acceder a él con el teclado, y el autocomplete off es para que no se rellene automáticamente-->
+                <button type="submit" class="btn_send">Enviar mensaje</button>
+                <p id="form_error"></p>
+            </form>
+        </section>
+    </main>
+</body>

@@ -1,0 +1,182 @@
+body {
+    font-family: system-ui, Arial;
+    max-width: 760px;
+    margin: auto;
+    padding: 0 16px;
+    color: rgb(97, 245, 146);
+
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url("Otros/Icono_GameSwap.png");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.row {
+    display: grid;
+    grid-template-rows: auto;
+    gap: 10px;
+    align-items: center;
+    margin: 10px 0;
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: rgb(155, 196, 243);
+    border-radius: 999px;
+}
+
+button {
+    background-color: rgb(155, 196, 243);
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 999px;
+}
+
+textarea{
+    background-color: rgb(155, 196, 243);
+    border-radius: 20px;
+}
+
+.row button {
+    width: 100%;
+}
+
+.top {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 18px;
+    padding: 8px 10px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+    padding: 8px 10px;
+}
+
+header select {
+    margin-left: auto;
+    border-radius: 999px;
+}
+
+.barraSuperior {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    background: rgba(0, 0, 0, 0.45);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.barraSuperior_inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 12px 16px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.marca {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    margin: 0;
+
+    color: #58ff8a;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+.barraSuperior_inner select {
+    margin-left: auto;
+    padding: 10px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.10);
+    color: #fff;
+    outline: none;
+}
+
+.barraSuperior_inner select option {
+    color: #000;
+}
+
+.barraSuperior_inner select:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.barraSuperior_inner select:focus {
+    border-color: rgba(88, 255, 138, 0.55);
+    box-shadow: (0 0 0 3px rgba(88, 255, 138, 0.18));
+}
+
+/*====AYUDA HTML====*/
+
+.content_main .contact {
+    display: flex;
+}
+
+.contact_form {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    /*padding: 30px;*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.contact_form [class^="form"] {
+    /*Selecciona todas las clases que empiecen por 'form'*/
+    width: 50%;
+    height: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contact_form [class^="form"] label {
+    /*Editamos los nombres de las cajas del apartado contacto*/
+    font-size: 20px;
+}
+
+.contact_form [class^="form"] input {
+    /*Editamos las cajas de introduccion de texto, del apartado contacto, subapartados Nombre y Email*/
+    padding: 15px;
+    width: 100%;
+    height: 20%;
+}
+
+.contact_form [class^="form"] textarea {
+    /*Editamos la caja de introduccion de texto del apartado contacto, subapartado Mensaje*/
+    resize: none;
+    /*Para que no se pueda redimensionar la caja*/
+    width: 100%;
+    /*Ancho de la caja*/
+    min-height: 150px;
+    /*Altura de la caja*/
+    padding: 15px;
+}
+
+/*========*/
+
+@media (width <=768px) {
+    /*====AYUDA HTML====*/
+    .contact_form [class^="form"] {
+        width: 90%;
+    }
+    /*========*/
+}
