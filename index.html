@@ -29,16 +29,51 @@
     </div>
   </header>
 
-  <div class="top">
-    <span>Código usuario</span>
-    <input id="fam" placeholder="Pega aquí el código" style="min-width:280px" />
-    <button id="btnSetFam">Guardar</button>
-    <button id="btnPush">Activar notificaciones</button>
+  <!-- MODAL AUTH -->
+  <div id="authModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="modal__backdrop"></div>
+
+    <div class="modal__card">
+      <h2 id="authTitle" class="modal__title">Bienvenido</h2>
+
+      <!-- VISTA: ya logueado -->
+      <div id="viewLogged" class="hidden">
+        <p class="modal__text" id="welcomeText"></p>
+
+        <button id="btnContinue" class="btn primary" type="button">Continuar</button>
+
+        <button id="btnNotMe" class="linklike" type="button">No soy <span id="notMeName"></span></button>
+      </div>
+
+      <!-- VISTA: no logueado -->
+      <div id="viewGuest" class="hidden">
+        <p class="modal__text">Inicia sesión para continuar.</p>
+
+        <form id="loginForm" class="form">
+          <label class="label">
+            Email
+            <input id="loginEmail" type="email" autocomplete="email" required />
+          </label>
+
+          <label class="label">
+            Contraseña
+            <input id="loginPass" type="password" autocomplete="current-password" required />
+          </label>
+
+          <button class="btn primary" type="submit">Iniciar sesión</button>
+        </form>
+
+        <div class="modal__footer">
+          <a class="btn secondary" href="registro.html">Crear cuenta</a>
+        </div>
+      </div>
+    </div>
   </div>
+
 
   <div id="lista_sugerencias"></div>
 
-  <script src="/intercambio-de-videojuegos/main.js"></script>
+  <script src="main.js"></script>
 </body>
 
 </html>

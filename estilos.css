@@ -37,7 +37,7 @@ button {
     border-radius: 999px;
 }
 
-textarea{
+textarea {
     background-color: rgb(155, 196, 243);
     border-radius: 20px;
 }
@@ -121,6 +121,113 @@ header select {
     box-shadow: (0 0 0 3px rgba(88, 255, 138, 0.18));
 }
 
+/*====INDEX HTML====*/
+
+.hidden {
+    display: none !important;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+}
+
+.modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .55);
+}
+
+.modal__card {
+    position: relative;
+    width: min(92vw, 420px);
+    margin: 12vh auto 0;
+    background: #111;
+    color: #fff;
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+    border: 1px solid rgba(255, 255, 255, .08);
+}
+
+.modal__title {
+    margin: 0 0 10px;
+    font-size: 1.25rem;
+}
+
+.modal__text {
+    margin: 0 0 14px;
+    opacity: .9;
+}
+
+.form {
+    display: grid;
+    gap: 10px;
+}
+
+.label {
+    display: grid;
+    gap: 6px;
+    font-size: .9rem;
+    opacity: .95;
+}
+
+.hidden input {
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, .12);
+    background: rgba(255, 255, 255, .06);
+    color: #fff;
+    outline: none;
+}
+
+.hidden input:focus {
+    border-color: rgba(255, 255, 255, .28);
+}
+
+.btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 0;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn.primary {
+    background: #2b8cff;
+    color: #fff;
+}
+
+.btn.secondary {
+    background: rgba(255, 255, 255, .08);
+    color: #fff;
+}
+
+.modal__footer {
+    margin-top: 12px;
+}
+
+.linklike {
+    margin-top: 10px;
+    background: transparent;
+    border: 0;
+    color: #9ec7ff;
+    cursor: pointer;
+    text-align: left;
+    padding: 0;
+}
+
+.linklike:hover {
+    text-decoration: underline;
+}
+
+/*==================*/
+
 /*====AYUDA HTML====*/
 
 .content_main .contact {
@@ -173,8 +280,83 @@ header select {
 
 /*========*/
 
+/*====REGISTRO HTML====*/
+
+.registro {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.registro [class^="div"] {
+    width: 50%;
+    height: auto;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.registro [class^="reg"] {
+    width: 50%;
+    height: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.registro [id="btnCancelar"] {
+    background-color: red;
+    color: white;
+}
+
+/*================*/
+
+/*====PERFIL HTML====*/
+
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.datosPerfil{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.datosPerfil [class^="div"]{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.datosPerfil span{
+    margin-right: 20px;
+}
+
+.botones_perfil{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.botones_perfil button:first-of-type{
+    margin-right: 20px;
+}
+
+/*===================*/
+
 @media (width <=768px) {
-    .marca{
+    .marca {
         font-size: x-large;
     }
 
@@ -185,5 +367,6 @@ header select {
     .contact_form [class^="form"] {
         width: 90%;
     }
+
     /*========*/
 }
