@@ -259,6 +259,7 @@ btnEditarPerfil?.addEventListener("click", () => {
         editMode = false;
         bloquearInputs(true);
         btnEditarPerfil.textContent = "EDITAR PERFIL";
+        btnCerrarSesion.textContent = "CERRAR SESIÓN";
     }
 
 });
