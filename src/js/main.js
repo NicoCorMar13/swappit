@@ -253,6 +253,8 @@ btnEditarPerfil?.addEventListener("click", () => {
         bloquearInputs(false);
         btnEditarPerfil.textContent = "GUARDAR";
         btnCerrarSesion.textContent = "CANCELAR";
+        btnCerrarSesion.style.backgroundColor = "red";
+        btnCerrarSesion.style.color = "white";
         inputNombre.focus();
     } else {
         guardarCambios();
