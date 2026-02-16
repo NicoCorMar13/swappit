@@ -1,6 +1,6 @@
 {
-    "name": "GameSwap",
-    "short_name": "GS",
+    "name": "Swappit",
+    "short_name": "Swap",
     "icons": [
         {
             "src": "Iconos/icono_192.png",
@@ -15,8 +15,8 @@
             "purpose": "maskable"
         }
     ],
-    "theme_color": "#000000",
-    "background_color": "#000000",
+    "theme_color": "#020202",
+    "background_color": "#31c18f",
     "display": "standalone",
     "start_url": "/swappit/",
     "scope": "/swappit/"
