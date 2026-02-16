@@ -320,7 +320,7 @@ header select {
 
 /*====PERFIL HTML====*/
 
-main{
+.perfilForm{
     display: flex;
     flex-direction: column;
     align-items: center;
