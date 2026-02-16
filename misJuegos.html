@@ -19,7 +19,7 @@
         <div class="barraSuperior_inner">
             <h1 class="marca">MIS JUEGOS</h1>
             <select name="selector" id="selectorPaginas" onchange="location.href=this.value">
-                <option value="" selected disabled hidden>Sitios</option>                
+                <option value="" selected disabled hidden>Sitios</option>
                 <option value="index.html">Inicio</option>
                 <option value="perfil.html">Perfil</option>
                 <option value="chats.html">Chats</option>
@@ -28,8 +28,21 @@
             </select>
         </div>
     </header>
+    <div class="infoJuego">
+        <div id="cabeceraJuego">
+            <h2 id="tituloJuego"></h2>
+            <button id="editarJuego">EDITAR</button>
+        </div>
+        <div id="cuerpoJuego">
+            <p id="descripcionJuego"></p>
+            <select name="selectorPlataforma" id="platJuego"></select>
+            <select name="selectorEstado" id="estadoJuego"></select>
+            <p id="etiquetasJuego"></p>
+        </div>
+    </div>
 </body>
 
 <script src="src/js/main.js"></script>
 <script src="src/js/misJuegos.js"></script>
+
 </html>
