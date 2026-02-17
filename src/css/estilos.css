@@ -22,6 +22,22 @@ body {
     margin: 10px 0;
 }
 
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: rgb(97, 245, 146);
+}
+
+a:hover {
+    color: #00d4ff;
+}
+
+a:active {
+    color: #00aacc;
+}
+
 input {
     padding: 10px;
     font-size: 16px;
@@ -121,7 +137,21 @@ header select {
     box-shadow: (0 0 0 3px rgba(88, 255, 138, 0.18));
 }
 
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
 /*====INDEX HTML====*/
+
+#btnChat {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
 
 .hidden {
     display: none !important;
@@ -226,6 +256,32 @@ header select {
     text-decoration: underline;
 }
 
+.cabeceraListaRecom {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.tituloInicio {
+    margin-left: 0;
+}
+
+.btnRefrescar {
+    margin-left: auto;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.listaRecomendados {
+    background: rgba(0, 0, 0, 0.45);
+    padding: 20px;
+    border-radius: 8px;
+}
+
 /*==================*/
 
 /*====AYUDA HTML====*/
@@ -278,7 +334,61 @@ header select {
     padding: 15px;
 }
 
-/*========*/
+/*===================*/
+
+/*====CHATS HTML====*/
+/*==================*/
+
+/*====FAVORITOS HTML====*/
+/*======================*/
+
+/*====JUEGO HTML====*/
+/*==================*/
+
+/*====MISJUEGOS HTML====*/
+/*======================*/
+
+/*====OTROPERFIL====*/
+/*==================*/
+
+
+
+/*====PERFIL HTML====*/
+
+.perfilForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.datosPerfil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.datosPerfil [class^="div"] {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.datosPerfil span {
+    margin-right: 20px;
+}
+
+.botones_perfil {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.botones_perfil button:first-of-type {
+    margin-right: 20px;
+}
+
+/*===================*/
 
 /*====REGISTRO HTML====*/
 
@@ -317,43 +427,6 @@ header select {
 }
 
 /*================*/
-
-/*====PERFIL HTML====*/
-
-.perfilForm{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.datosPerfil{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.datosPerfil [class^="div"]{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.datosPerfil span{
-    margin-right: 20px;
-}
-
-.botones_perfil{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.botones_perfil button:first-of-type{
-    margin-right: 20px;
-}
-
-/*===================*/
 
 @media (width <=768px) {
     .marca {

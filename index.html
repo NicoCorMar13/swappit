@@ -26,6 +26,10 @@
         <option value="favoritos.html">Favoritos</option>
         <option value="ayuda.html">Ayuda</option>
       </select>
+      <button id="btnChat" class="chat" type="button" aria-label="Notificaciones">
+        💬
+        <span id="notifBadge" class="badge" style="display:none">0</span>
+      </button>
     </div>
   </header>
 
@@ -70,14 +74,26 @@
     </div>
   </div>
 
-  <div id="inicio">
-    <div id="cabeceraListaRecom">
-      <h2 id="tituloInicio">Recomendados</h2>
-      <button id="btnRefrescar">REFRESCAR</button>
+  <main>
+    <div id="inicio">
+      <div class="cabeceraListaRecom">
+        <h2 class="tituloInicio" id="tituloInicio">RECOMENDADOS</h2>
+        <button class="btnRefrescar" id="btnRefrescar">REFRESCAR</button>
+      </div>
+      <ul class="listaRecomendados" id="listaRecomendados">
+        <li>Candy Crush</li>
+        <li><a href="juego.html">Residen Evil 1 - PS2 - Seminuevo - Jorge Méndez Márquez</a></li>
+        <li>Astro Bot</li>
+        <li>Residen Evil 2</li>
+        <li>Forza Horizon</li>
+        <li>Residen Evil 3</li>
+        <li>Horizon 1</li>
+        <li>Residen Evil 4</li>
+        <li>Horizon 2</li>
+        <li>Residen Evil 5</li>
+      </ul>
     </div>
-    <ul id="listaRecomendados"></ul>
-  </div>
-
+  </main>
 
   <div id="lista_sugerencias"></div>
 
