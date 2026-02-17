@@ -7,7 +7,7 @@ body {
 
     background:
         linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-        url("../assets/Icono_GameSwap.png");
+        url("../assets/Icono_Swappit.png");
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -24,6 +24,7 @@ body {
 
 a {
     text-decoration: none;
+    color: rgb(97, 245, 146);
 }
 
 a:visited {
@@ -105,7 +106,7 @@ header select {
 }
 
 .marca {
-    font-size: 28px;
+    font-size: 33px;
     font-weight: 800;
     letter-spacing: 0.5px;
     margin: 0;
@@ -142,6 +143,24 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+}
+
+ul {
+    text-align: center;
+    margin: 0;
+    list-style: none;
+    background: rgba(0, 0, 0, 0.45);
+    padding: 20px;
+    border-radius: 8px;
+    font-size: 25px;
+}
+
+h2 {
+    font-size: 30px;
+}
+
+p {
+    font-size: 20px;
 }
 
 /*====INDEX HTML====*/
@@ -270,18 +289,6 @@ main {
     margin-left: auto;
 }
 
-ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.listaRecomendados {
-    background: rgba(0, 0, 0, 0.45);
-    padding: 20px;
-    border-radius: 8px;
-}
-
 /*==================*/
 
 /*====AYUDA HTML====*/
@@ -337,20 +344,82 @@ ul {
 /*===================*/
 
 /*====CHATS HTML====*/
+
+
+
 /*==================*/
 
 /*====FAVORITOS HTML====*/
 /*======================*/
 
 /*====JUEGO HTML====*/
+
+.infoJuego {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.infoJuego p{
+    text-align: center;
+}
+
+.plataformaJuego {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#tituloPlataforma {
+    margin-right: 1vh;
+}
+
+.btnsJuego {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.btnIniciarChat {
+    margin-right: 10vh;
+}
+
 /*==================*/
 
 /*====MISJUEGOS HTML====*/
+
+.main_misJuegos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btnsMisJuegos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.anadirJuego {
+    margin-left: 0;
+}
+
+.eliminarJuegos {
+    margin-left: auto;
+}
+
+.listaJuegosPerfil ul {
+    padding: 0 10px 10px 10px;
+    margin-top: 20px;
+}
+
 /*======================*/
 
 /*====OTROPERFIL====*/
-/*==================*/
 
+
+
+/*==================*/
 
 
 /*====PERFIL HTML====*/

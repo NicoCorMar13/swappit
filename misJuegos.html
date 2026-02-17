@@ -9,7 +9,7 @@
     <link rel="icon" type="image/svg+xml" href="Iconos/favicon.svg" />
     <link rel="shortcut icon" href="Iconos/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="Iconos/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="GameSwap" />
+    <meta name="apple-mobile-web-app-title" content="Swappit" />
     <link rel="manifest" href="manifest.json" />
     <title>GameSwap</title>
 </head>
@@ -29,18 +29,24 @@
         </div>
     </header>
 
-    <main>
-        <div class="infoJuego">
-            <div id="cabeceraJuego">
-                <h2 id="tituloJuego"></h2>
-                <button id="editarJuego">EDITAR</button>
-            </div>
-            <div id="cuerpoJuego">
-                <p id="descripcionJuego"></p>
-                <select name="selectorPlataforma" id="platJuego"></select>
-                <select name="selectorEstado" id="estadoJuego"></select>
-                <p id="etiquetasJuego"></p>
-            </div>
+    <main class="main_misJuegos">
+        <div class="btnsMisJuegos">
+            <button class="anadirJuego" id="anadirJuego">AÑADIR JUEGO</button>
+            <button class="eliminarJuegos" id="eliminarJuegos">ELIMINAR</button>
+        </div>
+        <div class="listaJuegosPerfil">
+            <ul class="listaJuegosOtroPerfil" id="listaJuegosOtroPerfil">
+                <li>Candy Crush</li>
+                <li><a href="juego.html">Residen Evil 1 - PS2 - Seminuevo</a></li>
+                <li>Astro Bot</li>
+                <li>Residen Evil 2</li>
+                <li>Forza Horizon</li>
+                <li>Residen Evil 3</li>
+                <li>Horizon 1</li>
+                <li>Residen Evil 4</li>
+                <li>Horizon 2</li>
+                <li>Residen Evil 5</li>
+            </ul>
         </div>
     </main>
 

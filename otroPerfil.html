@@ -9,7 +9,7 @@
     <link rel="icon" type="image/svg+xml" href="Iconos/favicon.svg" />
     <link rel="shortcut icon" href="Iconos/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="Iconos/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="GameSwap" />
+    <meta name="apple-mobile-web-app-title" content="Swappit" />
     <link rel="manifest" href="manifest.json" />
     <title>GameSwap</title>
 </head>
@@ -17,10 +17,11 @@
 <body>
     <header class="barraSuperior">
         <div class="barraSuperior_inner">
-            <h1 class="marca">MI PERFIL</h1>
+            <h1 class="marca">JORGE MÉNDEZ MÁRQUEZ</h1>
             <select name="selector" id="selectorPaginas" onchange="location.href=this.value">
                 <option value="" selected disabled hidden>Sitios</option>
                 <option value="index.html">Inicio</option>
+                <option value="perfil.html">Perfil</option>
                 <option value="misJuegos.html">Mis Juegos</option>
                 <option value="chats.html">Chats</option>
                 <option value="favoritos.html">Favoritos</option>
@@ -30,27 +31,20 @@
     </header>
 
     <main>
-        <form class="perfilForm" id="perfil">
-            <div class="datosPerfil">
-                <div class="div_nombre">
-                    <span class="perfil_nombre">NOMBRE</span>
-                    <input type="text" id="perfil_nombre" disabled style="min-width:280px">
-                </div>
-                <div class="div_apellidos">
-                    <span class="perfil_apellidos">APELLIDOS</span>
-                    <input type="text" id="perfil_apellidos" disabled style="min-width:280px">
-                </div>
-                <div class="div_email">
-                    <span class="perfil_email">CORREO ELECTRÓNICO</span>
-                    <input type="email" id="perfil_email" disabled style="min-width:280px">
-                </div>
-                <div class="div_password">
-                    <span class="perfil_contraseña">CONTRASEÑA</span>
-                    <input type="password" id="perfil_contraseña" disabled style="min-width:280px">
-                </div>
-            </div>
+        <form class="otroPerfilForm" id="otroPerfil">
             <div class="listaJuegosPerfil">
-                <ul class="listaJuegos"></ul>
+                <ul class="listaJuegosOtroPerfil" id="listaJuegosOtroPerfil">
+                    <li>Candy Crush</li>
+                    <li><a href="juego.html">Residen Evil 1 - PS2 - Seminuevo</a></li>
+                    <li>Astro Bot</li>
+                    <li>Residen Evil 2</li>
+                    <li>Forza Horizon</li>
+                    <li>Residen Evil 3</li>
+                    <li>Horizon 1</li>
+                    <li>Residen Evil 4</li>
+                    <li>Horizon 2</li>
+                    <li>Residen Evil 5</li>
+                </ul>
             </div>
         </form>
     </main>
@@ -58,4 +52,5 @@
 
 <script src="src/js/main.js"></script>
 <script src="src/js/otroPerfil.js"></script>
+
 </html>

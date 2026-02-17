@@ -9,7 +9,7 @@
     <link rel="icon" type="image/svg+xml" href="Iconos/favicon.svg" />
     <link rel="shortcut icon" href="Iconos/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="Iconos/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="GameSwap" />
+    <meta name="apple-mobile-web-app-title" content="Swappit" />
     <link rel="manifest" href="manifest.json" />
     <title>GameSwap</title>
 </head>
@@ -17,10 +17,11 @@
 <body>
     <header class="barraSuperior">
         <div class="barraSuperior_inner">
-            <h1 class="marca">MI PERFIL</h1>
+            <h1 class="marca">RESIDENT EVIL 1</h1>
             <select name="selector" id="selectorPaginas" onchange="location.href=this.value">
                 <option value="" selected disabled hidden>Sitios</option>
                 <option value="index.html">Inicio</option>
+                <option value="perfil.html">Perfil</option>
                 <option value="misJuegos.html">Mis Juegos</option>
                 <option value="chats.html">Chats</option>
                 <option value="favoritos.html">Favoritos</option>
@@ -30,15 +31,17 @@
     </header>
 
     <main>
-        <div class="infoOtroJuego">
-            <h2 id="tituloJuego">Resident Evil 1</h2>
-            <h3 id="dueno">Jorge Méndez Márquez</h3>
-            <p id="descripcionJuego">El juego está impecable, conserva la caratula y todas las cosas que traia. El disco esta un poco rallado por uso.</p>
-            <h3 id="plataformaJuego">PS2</h3>
+        <div class="infoJuego">
+            <p id="descripcionJuego">El juego está impecable, conserva la caratula y todas las cosas que traia.<br> El disco esta un poco rallado por uso.</p>
+            <div class="plataformaJuego">
+                <h2 id="tituloPlataforma">PLATAFORMA → </h2>
+                <h2 id="plataformaJuego">PS2</h2>
+            </div>
+            <h2 id="dueno"><a href="otroPerfil.html">Jorge Méndez Márquez</a></h2>
             <p id="etiquetasJuego">#PS2 #ResidentEvil #PlayStation</p>
         </div>
         <div class="btnsJuego">
-            <button class="btnChat" id="btnChat">CHAT</button>
+            <button class="btnIniciarChat" id="btnIniciarChat">CHAT</button>
             <button class="btnFav" id="btnFav">❤️</button>
         </div>
     </main>

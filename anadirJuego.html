@@ -19,6 +19,15 @@
         <div class="barraSuperior_inner">
             <h1 class="marca">REGISTRO DE USUARIO</h1>
         </div>
+        <select name="selector" id="selectorPaginas" onchange="location.href=this.value">
+            <option value="" selected disabled hidden>Sitios</option>
+            <option value="index.html">Inicio</option>
+            <option value="perfil.html">Perfil</option>
+            <option value="misJuegos.html">Mis Juegos</option>
+            <option value="chats.html">Chats</option>
+            <option value="favoritos.html">Favoritos</option>
+            <option value="ayuda.html">Favoritos</option>
+        </select>
     </header>
 
     <main>
@@ -37,7 +46,8 @@
             </div>
             <div class="div_password">
                 <span class="reg_contraseña">CONTRASEÑA</span>
-                <input type="password" id="reg_contraseña" placeholder="escribe aqui tu contraseña" style="min-width:280px">
+                <input type="password" id="reg_contraseña" placeholder="escribe aqui tu contraseña"
+                    style="min-width:280px">
             </div>
             <div class="div_btns">
                 <button id="btnSetUsuario" type="button">GUARDAR</button>
@@ -50,5 +60,6 @@
 </body>
 
 <script src="src/js/main.js"></script>
-<script src="src/js/registro.js"></script>
+<script src="src/js/anadirJuego.js"></script>
+
 </html>
