@@ -32,6 +32,10 @@
     <main>
         <form class="perfilForm" id="perfil">
             <div class="datosPerfil">
+                <div class="div_username">
+                    <span class="perfil_username">NOMBRE DE USUARIO</span>
+                    <input type="text" id="perfil_username" disabled style="min-width:280px">
+                </div>
                 <div class="div_nombre">
                     <span class="perfil_nombre">NOMBRE</span>
                     <input type="text" id="perfil_nombre" disabled style="min-width:280px">
@@ -48,8 +52,13 @@
                     <span class="perfil_contraseña">CONTRASEÑA</span>
                     <input type="password" id="perfil_contraseña" disabled style="min-width:280px">
                 </div>
+                <div class="div_repassword">
+                    <span class="perfil_recontraseña" style="display: none;">CONFIRMAR CONTRASEÑA</span>
+                    <input type="password" id="perfil_recontraseña" disabled style="min-width:280px; display:none;">
+                </div>
             </div>
             <div class="botones_perfil">
+                <button id="btnEditarContraseña" type="button">EDITAR CONTRASEÑA</button>
                 <button id="btnEditarPerfil" type="button">EDITAR PERFIL</button>
                 <button id="btnCerrarSesion" type="button">CERRAR SESIÓN</button>
             </div>

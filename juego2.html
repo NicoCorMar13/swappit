@@ -17,7 +17,7 @@
 <body>
     <header class="barraSuperior">
         <div class="barraSuperior_inner">
-            <h1 class="usernameOtroPerfil">JORGITO23</h1>
+            <h1 class="marca">ASTRO BOT</h1>
             <select name="selector" id="selectorPaginas" onchange="location.href=this.value">
                 <option value="" selected disabled hidden>Sitios</option>
                 <option value="index.html">Inicio</option>
@@ -31,28 +31,24 @@
     </header>
 
     <main>
-        <form class="otroPerfilForm" id="otroPerfil">
-            <h2 class="nombreCompletoOtroPerfil">Jorge Méndez Márquez</h2>
-            <button class="anadirPerfilFav">AÑADIR PERFIL A FAVORITOS</button>
-            <div class="listaJuegosPerfil">
-                <ul class="listaJuegosOtroPerfil" id="listaJuegosOtroPerfil">
-                    <li>Candy Crush</li>
-                    <li><a href="juego.html">Residen Evil 1 - PS2 - Seminuevo</a></li>
-                    <li>Astro Bot</li>
-                    <li>Residen Evil 2</li>
-                    <li>Forza Horizon</li>
-                    <li>Residen Evil 3</li>
-                    <li>Horizon 1</li>
-                    <li>Residen Evil 4</li>
-                    <li>Horizon 2</li>
-                    <li>Residen Evil 5</li>
-                </ul>
+        <div class="infoJuego">
+            <p id="descripcionJuego">El juego está impecable, conserva la caratula y todas las cosas que traia.<br> El disco esta en perfecto estado.</p>
+            <div class="plataformaJuego">
+                <h2 id="tituloPlataforma">PLATAFORMA → </h2>
+                <h2 id="plataformaJuego">PS5</h2>
             </div>
-        </form>
+            <h2 id="dueno"><a href="otroPerfil2.html">Laura Martínez</a></h2>
+            <p id="etiquetasJuego">#PS5 #AstroBot #PlayStation</p>
+        </div>
+        <div class="btnsJuego">
+            <button class="btnIniciarChat" id="btnIniciarChat">CHAT</button>
+            <button class="btnFav" id="btnFav">❤️</button>
+        </div>
     </main>
+
 </body>
 
 <script src="src/js/main.js"></script>
-<script src="src/js/otroPerfil.js"></script>
+<script src="src/js/juego.js"></script>
 
 </html>

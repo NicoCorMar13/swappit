@@ -360,7 +360,7 @@ p {
     align-items: center;
 }
 
-.infoJuego p{
+.infoJuego p {
     text-align: center;
 }
 
@@ -384,11 +384,17 @@ p {
     margin-right: 10vh;
 }
 
+.btnFav.liked {
+    transform: scale(1.08);
+    filter: saturate(1.2);
+}
+
+
 /*==================*/
 
 /*====MISJUEGOS HTML====*/
 
-.main_misJuegos{
+.main_misJuegos {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -417,7 +423,11 @@ p {
 
 /*====OTROPERFIL====*/
 
-
+.otroPerfilForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 /*==================*/
 
@@ -453,7 +463,7 @@ p {
     align-items: center;
 }
 
-.botones_perfil button:first-of-type {
+.botones_perfil button {
     margin-right: 20px;
 }
 
