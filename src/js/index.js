@@ -4,40 +4,69 @@ function load(key, fallback) {
     catch { return fallback; }
 }
 
+function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+const RECOM_LIMIT = 10; // <-- X juegos a mostrar (cambia a lo que quieras)
+const SEEN_KEY = "recomendados_seen_ids"; // sessionStorage
+
 // ===== Render lista recomendados =====
 function renderRecomendados() {
     const ul = document.getElementById("listaRecomendados");
     if (!ul) return;
 
     const games = load("games", []);
+    const session = load("session", null);
+    const myUsername = session?.username ? String(session.username).trim().toLocaleLowerCase() : null;
 
     // Limpia lo que haya (tus <li> de ejemplo incluidos)
     ul.innerHTML = "";
 
-    if (!games.length) {
+    const recomendados = games.filter(g => {
+        if (!myUsername) return true; // si no hay sesión, muestro todo
+        const owner = String(g.ownerUsername || "").trim().toLocaleLowerCase();
+        return owner !== myUsername; // si hay sesión, solo muestro los que no son míos
+    });
+
+    if (!recomendados.length) {
         const li = document.createElement("li");
-        li.textContent = "No hay juegos todavía. Usa seedGamesFromUsers(10) en consola.";
+        li.textContent = myUsername
+            ? "No hay juegos todavía. Usa seedGamesFromUsers(10) en consola."
+            : "No hay juegos todavía";
         ul.appendChild(li);
         return;
     }
 
-    // (Opcional) orden por más nuevos primero
-    games
-        .slice()
-        .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
-        .forEach(g => {
-            const li = document.createElement("li");
-            const a = document.createElement("a");
+    const seenIds = (() => {
+        try { return JSON.parse(sessionStorage.getItem(SEEN_KEY)) || []; }
+        catch { return []; }
+    })();
 
-            // IMPORTANTE: si tu detalle se llama juego.html, ponlo aquí
-            a.href = `juego.html?gid=${encodeURIComponent(g.id)}`;
+    const notSeen = recomendados.filter(g => !seenIds.includes(g.id));
+    let chosen;
 
-            // Lo que tú querías ver en inicio:
-            a.textContent = `${g.title} - ${g.platform} - ${g.condition} - ${g.ownerUsername}`;
+    if (notSeen.length > RECOM_LIMIT) {
+        chosen = shuffle(notSeen).slice(0, RECOM_LIMIT);
+    } else {
+        chosen = shuffle(recomendados).slice(0, Math.min(RECOM_LIMIT, recomendados.length));
+    }
 
-            li.appendChild(a);
-            ul.appendChild(li);
-        });
+    sessionStorage.setItem(SEEN_KEY, JSON.stringify(chosen.map(g => g.id)));
+
+    chosen.forEach(g => {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = `juego.html?gid=${encodeURIComponent(g.id)}`;
+        a.textContent = `${g.title} - ${g.platform} - ${g.condition} - ${g.ownerUsername}`;
+        li.appendChild(a);
+        ul.appendChild(li);
+    });
 }
 
 // ===== Botón refrescar =====

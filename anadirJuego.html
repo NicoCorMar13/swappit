@@ -11,13 +11,13 @@
     <link rel="apple-touch-icon" sizes="180x180" href="Iconos/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Swappit" />
     <link rel="manifest" href="manifest.json" />
-    <title>GameSwap</title>
+    <title>Swappit</title>
 </head>
 
 <body>
     <header class="barraSuperior">
         <div class="barraSuperior_inner">
-            <h1 class="marca">REGISTRO DE USUARIO</h1>
+            <h1 class="marca">AÑADIR JUEGO</h1>
         </div>
         <select name="selector" id="selectorPaginas" onchange="location.href=this.value">
             <option value="" selected disabled hidden>Sitios</option>
@@ -26,31 +26,47 @@
             <option value="misJuegos.html">Mis Juegos</option>
             <option value="chats.html">Chats</option>
             <option value="favoritos.html">Favoritos</option>
-            <option value="ayuda.html">Favoritos</option>
+            <option value="ayuda.html">Ayuda</option>
         </select>
     </header>
 
     <main>
-        <form id="registerForm" class="registro">
-            <div class="div_nombre">
-                <span class="reg_nombre">NOMBRE</span>
-                <input type="text" id="reg_nombre" placeholder="escribe aquí tu nombre" style="min-width:280px">
-            </div>
-            <div class="div_apellidos">
-                <span class="reg_apellidos">APELLIDOS</span>
-                <input type="text" id="reg_apellidos" placeholder="escribe aquí tus apellidos" style="min-width:280px">
-            </div>
-            <div class="div_email">
-                <span class="reg_email">CORREO ELECTRÓNICO</span>
-                <input type="email" id="reg_email" placeholder="escribe aqui tu email" style="min-width:280px">
-            </div>
-            <div class="div_password">
-                <span class="reg_contraseña">CONTRASEÑA</span>
-                <input type="password" id="reg_contraseña" placeholder="escribe aqui tu contraseña"
+        <form id="anadirJuegoForm" class="anadirJuegoForm">
+            <div class="div_nombreJuego">
+                <span class="anadirJuego_nombre">NOMBRE</span>
+                <input type="text" id="anadirJuego_nombre" placeholder="escribe aquí el nombre del juego"
                     style="min-width:280px">
             </div>
-            <div class="div_btns">
-                <button id="btnSetUsuario" type="button">GUARDAR</button>
+            <div class="div_descripcion">
+                <span class="anadirJuego_descripcion">DESCRIPCIÓN</span>
+                <textarea type="text" id="anadirJuego_descripcion" placeholder="escribe aquí la descripción del juego"
+                    style="min-width:280px"></textarea>
+            </div>
+            <div class="div_plataformaJuego">
+                <span class="anadirJuego_plataforma">PLATAFORMA</span>
+                <input type="text" id="anadirJuego_plataforma" placeholder="escribe aquí la plataforma del juego"
+                    style="min-width:280px">
+            </div>
+            <div class="div_estadoJuego">
+                <span class="anadirJuego_estado">ESTADO</span>
+                <!-- <input type="text" id="anadirJuego_estado" placeholder="escribe aqui el estado del juego" style="min-width:280px"> -->
+                <select name="selectorEstado" id="selectorEstado" style="min-width:280px">
+                    <option value="" selected disabled hidden>Estado</option>
+                    <option id="good" value="Nuevo">Nuevo</option>
+                    <option id="menosGood" value="En buen estado">En buen estado</option>
+                    <option id="used" value="Usado">Usado</option>
+                    <option id="damaged" value="Dañado">Dañado</option>
+                    <option id="nonFunctional" value="No funcional">No funcional</option>
+                    <option id="unknown" value="Desconocido">Desconocido</option>
+                </select>
+            </div>
+            <div class="div_etiquetasJuego">
+                <span class="anadirJuego_etiquetas">ETIQUETAS</span>
+                <input type="text" id="anadirJuego_etiquetas" placeholder="etiquetas separadas por comas"
+                    style="min-width:280px">
+            </div>
+            <div class="div_btnsAnadirJuego">
+                <button id="btnGuardarJuego" type="button">GUARDAR</button>
                 <button id="btnCancelar" type="button">CANCELAR</button>
             </div>
         </form>
