@@ -65,7 +65,7 @@ function seedGamesRandom(nPorUsuario = 5, { overwrite = false } = {}) {
     }
 
     const platforms = ["PS5", "PS4", "PS3", "PS2", "PS1", "XBOX ONE", "XBOX 360", "Nintendo Switch", "Nintendo DS", "PC"];
-    const conditions = ["Disponible", "Busco intercambio", "Reservado"];
+    const conditions = ["Nuevo", "En buen estado", "Usado", "Dañado", "No funcional"];
     const tagPool = ["accion", "aventura", "rpg", "shooter", "cozy", "horror", "indie", "deportes", "carreras", "puzzle", "coop", "openworld", "retro"];
 
     const titlesA = ["Shadow", "Pixel", "Neon", "Iron", "Crystal", "Turbo", "Dark", "Sky", "Quantum", "Nova", "Dragon", "Cyber", "Silent", "Mystic"];
