@@ -39,13 +39,19 @@ function renderFavoritos() {
     if (!ulJuegosFav || !ulPerfilesFav) return;
 
     const session = getSession();
-    const myUsername = normalizeUsername(session?.username);
+    let myUsername = normalizeUsername(session?.username);
+    console.log("Usuario en sesión:", myUsername);
 
     // Si no hay sesión, no podemos saber qué key leer
     if (!myUsername) {
         ulJuegosFav.innerHTML = "<li>Inicia sesión para ver tus favoritos.</li>";
         ulPerfilesFav.innerHTML = "<li>Inicia sesión para ver tus favoritos.</li>";
         return;
+    }
+
+    if (myUsername === "superadmin") {
+        myUsername = "superAdmin";
+        console.log("Usuario en sesión:", myUsername);
     }
 
     const juegosFavoritosRaw = load("likes_games_" + myUsername, []);

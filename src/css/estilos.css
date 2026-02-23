@@ -123,12 +123,14 @@ header select {
     background: rgba(255, 255, 255, 0.10);
     color: #fff;
     outline: none;
-    text-align: center;
+    text-align: left;
+    text-align-last: center;
 }
 
 #selectorPaginas option {
     background: rgba(54, 50, 50, 0.795);
     color: #fff;
+    text-align: left;
 }
 
 .barraSuperior select:hover {
@@ -152,23 +154,29 @@ ul {
     margin: 0;
     list-style: none;
     background: rgba(0, 0, 0, 0.45);
-    padding: 20px;
+    padding: 10px;
     border-radius: 8px;
     font-size: 25px;
+    margin-top: 20px;
+    width: 100%;
 }
 
 ul li {
-    padding: 10px;
+    padding: 5px;
+    margin:5px;
+    border-radius: 20px;
+}
+
+.listaMisJuegos ul li {
+    margin: 5px;
 }
 
 ul li:nth-child(odd) {
     background-color: #8fcc003d;
-    border-radius: 20px;
 }
 
 ul li:nth-child(even) {
     background-color: #4e00cc5b;
-    border-radius: 20px;
 }
 
 h2 {
@@ -177,6 +185,11 @@ h2 {
 
 p {
     font-size: 20px;
+}
+
+.checkboxEliminar {
+    margin-right: 10px;
+    transform: scale(1.2);
 }
 
 /*====INDEX HTML====*/
@@ -457,14 +470,23 @@ p {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 0;
+    margin: 5px;
 }
 
 .form_favoritos [class^="cabLista"] {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 50%;
+    margin: 5px;
+    /* width: 50%; */
+}
+
+.form_favoritos [class^="cabLista"] h2 {
+    margin-left: 0;
+}
+
+.form_favoritos [class^="cabLista"] button {
+    margin-left: auto;
 }
 
 .form_favoritos [class^="lista"] {
@@ -537,11 +559,6 @@ p {
 
 .btnEliminarJuegos {
     margin-left: 20px;
-}
-
-.listaMisJuegos ul {
-    padding: 0 10px 10px 10px;
-    margin-top: 20px;
 }
 
 /*======================*/
