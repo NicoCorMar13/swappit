@@ -157,6 +157,20 @@ ul {
     font-size: 25px;
 }
 
+ul li {
+    padding: 10px;
+}
+
+ul li:nth-child(odd) {
+    background-color: #8fcc003d;
+    border-radius: 20px;
+}
+
+ul li:nth-child(even) {
+    background-color: #4e00cc5b;
+    border-radius: 20px;
+}
+
 h2 {
     font-size: 30px;
 }
@@ -430,6 +444,36 @@ p {
 /*==================*/
 
 /*====FAVORITOS HTML====*/
+
+.form_favoritos {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.form_favoritos [class^="div_"] {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0;
+}
+
+.form_favoritos [class^="cabLista"] {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 50%;
+}
+
+.form_favoritos [class^="lista"] {
+    text-align: center;
+    width: 90%;
+}
+
+
+
 /*======================*/
 
 /*====JUEGO HTML====*/
@@ -593,7 +637,16 @@ p {
         font-size: x-large;
     }
 
-    /*==== ====*/
+    /*====FAVORITOS HTML====*/
+
+    .form_favoritos [class^="cabLista"] {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 0;
+}
+
     /*========*/
 
     /*====AYUDA HTML====*/

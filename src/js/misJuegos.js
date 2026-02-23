@@ -15,7 +15,7 @@ function getSession() {
     catch { return null; }
 }
 
-function renderRecomendados() {
+function renderMisJuegos() {
     const ul = document.getElementById("listaMisJuegos");
     if (!ul) return;
 
@@ -26,13 +26,13 @@ function renderRecomendados() {
     ul.innerHTML = "";
 
     // Filtra: si hay sesión, quita los juegos del usuario logueado
-    const recomendados = games.filter(g => {
+    const misJuegos = games.filter(g => {
         if (!myUsername) return true; // si no hay sesión, muestra todo
         const owner = String(g.ownerUsername || "").trim().toLowerCase();
         return owner === myUsername;
     });
 
-    if (!recomendados.length) {
+    if (!misJuegos.length) {
         const li = document.createElement("li");
         li.textContent = myUsername
             ? `"No has añadido aún ningún juego, ${session.name}. Usa el botón 'Añadir juego' para compartir tus juegos con la comunidad."`
@@ -41,7 +41,7 @@ function renderRecomendados() {
         return;
     }
 
-    recomendados
+    misJuegos
         .slice()
         .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
         .forEach(g => {
@@ -54,6 +54,6 @@ function renderRecomendados() {
         });
 }
 
-document.addEventListener("DOMContentLoaded", renderRecomendados);
+document.addEventListener("DOMContentLoaded", renderMisJuegos);
 
 

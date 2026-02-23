@@ -94,6 +94,7 @@ function renderAuthGate() {
 btnContinue?.addEventListener("click", () => {
     sessionStorage.setItem("authModalDismissed", "1");
     closeModal();
+    location.reload(); // recarga para renderizar recomendaciones según sesión
 });
 
 btnNotMe?.addEventListener("click", () => {

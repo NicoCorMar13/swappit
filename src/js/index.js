@@ -25,6 +25,8 @@ function renderRecomendados() {
     const session = load("session", null);
     const myUsername = session?.username ? String(session.username).trim().toLocaleLowerCase() : null;
 
+    if (!session) { return;}
+
     // Limpia lo que haya (tus <li> de ejemplo incluidos)
     ul.innerHTML = "";
 
