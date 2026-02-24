@@ -20,7 +20,7 @@ function norm(s) {
 ========================================================= */
 function seedUsers({ overwrite = false } = {}) {
     const seed = [
-        { name: "Admin", apellidos: "Admin Admin", username: "superAdmin", email: "admin@admin.es", pass: "admin1" },
+        { name: "Admin", apellidos: "Admin Admin", username: "superadmin", email: "admin@admin.es", pass: "admin1" },
         { name: "Jorge", apellidos: "Méndez Méndez", username: "jorgito23", email: "jorge.mm@gmail.com", pass: "JORGEmm1" },
         { name: "Carlos", apellidos: "Gómez", username: "carlossg", email: "carlos@gmail.com", pass: "1234" },
         { name: "Laura", apellidos: "Martínez", username: "lauram", email: "laura@gmail.com", pass: "1234" },
@@ -144,10 +144,74 @@ function seedGamesRandom(nPorUsuario = 5, { overwrite = false } = {}) {
     return added;
 }
 
+function seedGamesRandomForAdmin(n = 20, { overwrite = false } = {}) {
+    const ownerUsername = "superadmin";
+
+    const platforms = ["PS5", "PS4", "PS3", "PS2", "PS1", "XBOX ONE", "XBOX 360", "Nintendo Switch", "Nintendo DS", "PC"];
+    const conditions = ["Nuevo", "En buen estado", "Usado", "Dañado", "No funcional"];
+    const tagPool = ["accion", "aventura", "rpg", "shooter", "cozy", "horror", "indie", "deportes", "carreras", "puzzle", "coop", "openworld", "retro"];
+    const titlesA = ["Shadow", "Pixel", "Neon", "Iron", "Crystal", "Turbo", "Dark", "Sky", "Quantum", "Nova", "Dragon", "Cyber", "Silent", "Mystic"];
+    const titlesB = ["Riders", "Quest", "Chronicles", "Arena", "Odyssey", "Legends", "Protocol", "Frontier", "Tactics", "Storm", "Fever", "Heist", "Echoes", "Saga"];
+
+    const randomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+    const randInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+    const makeTitle = () => `${randomItem(titlesA)} ${randomItem(titlesB)} ${randInt(1, 7)}`;
+    const makeDesc = (title, platform) => `${title} para ${platform}. Estado bueno. Incluye caja/manual según edición.`;
+
+    const pickTags = () => {
+        const count = randInt(1, 3);
+        const set = new Set();
+        while (set.size < count) set.add(randomItem(tagPool));
+        return [...set];
+    };
+
+    const keyOf = (g) => `${norm(g.ownerUsername)}|${norm(g.title)}|${norm(g.platform)}`;
+
+    let current = overwrite ? [] : load("games", []);
+    const existingKeys = new Set(current.map(keyOf));
+
+    let added = 0, attempts = 0;
+
+    while (added < n && attempts < n * 10) {
+        attempts++;
+        const platform = randomItem(platforms);
+        const title = makeTitle();
+
+        const game = {
+            id: uid(),
+            title,
+            description: makeDesc(title, platform),
+            platform,
+            condition: randomItem(conditions),
+            ownerUsername,
+            tags: pickTags(),
+            createdAt: Date.now(),
+        };
+
+        const k = keyOf(game);
+        if (existingKeys.has(k)) continue;
+
+        current.push(game);
+        existingKeys.add(k);
+        added++;
+    }
+
+    save("games", current);
+    console.log(`[seedGamesRandomForAdmin] añadidos ${added} (total ${current.length})`);
+    return added;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-    const games = load("games", []);
+    let games = load("games", []);
     seedUsers();
     if (games.length === 0) {
         seedGamesRandom(20);
+        games = load("games", []);
+    }
+
+    const adminGames = games.filter(g => norm(g.ownerUsername) === "superadmin");
+    if (adminGames.length === 0) {
+        seedGamesRandomForAdmin(20);
     }
 });

@@ -1,23 +1,19 @@
 const anadirJuego = document.getElementById("btnAnadirJuego");
 const eliminarJuegos = document.getElementById("btnEliminarJuegos");
+const eliminarTodo = document.getElementById("btnEliminarTodo");
 let modoEliminar = false;
-
-anadirJuego?.addEventListener("click", () => { window.location.href = "anadirJuego.html"; });
-eliminarJuegos?.addEventListener("click", () => { activarModoEliminar({ botonId: "btnEliminarJuegos", listaId: "listaMisJuegos", storageKey: "games" }); });
-
-// eliminarJuegos?.addEventListener("click", () => {
-//     if (confirm("¿Estás seguro de que quieres eliminar todos los juegos?")) {
-//         localStorage.removeItem("games");
-//         renderRecomendados();
-//     }
-// });
 
 function getSession() {
     try { return JSON.parse(localStorage.getItem("session")); }
     catch { return null; }
 }
 
-function activarModoEliminar({ botonId, listaId, storageKey}) {
+function cancelarModoEliminar() {
+    modoEliminar = false;
+    document.querySelectorAll(".checkboxEliminar").forEach(cb => cb.remove());
+}
+
+function activarModoEliminar({ botonId, listaId, storageKey }) {
     const btn = document.getElementById(botonId);
     const ul = document.getElementById(listaId);
     if (!btn || !ul) return;
@@ -27,6 +23,12 @@ function activarModoEliminar({ botonId, listaId, storageKey}) {
     if (!modoEliminar) {
         // Activar modo seleccion
         modoEliminar = true;
+
+        anadirJuego.textContent = "CANCELAR";
+        anadirJuego.style.backgroundColor = "red";
+        anadirJuego.style.color = "white";
+        btn.textContent = "ELIMINAR SELECCIONADOS";
+        eliminarTodo.style.display = "inline-block";
 
         items.forEach(li => {
             const checkbox = document.createElement("input");
@@ -38,10 +40,16 @@ function activarModoEliminar({ botonId, listaId, storageKey}) {
         // Eliminar seleccionados
         const seleccionados = ul.querySelectorAll(".checkboxEliminar:checked");
 
+        anadirJuego.textContent = "AÑADIR JUEGO";
+        btn.textContent = "ELIMINAR JUEGOS";
+        anadirJuego.style.backgroundColor = "";
+        anadirJuego.style.color = "";
+
         if (seleccionados.length === 0) {
             // Cancelamos si no hay ninguno seleccionado
             modoEliminar = false;
             ul.querySelectorAll(".checkboxEliminar").forEach(cb => cb.remove());
+            alert("Selecciona al menos un juego para eliminar.");
             return;
         }
         let data = load(storageKey, []);
@@ -101,5 +109,61 @@ function renderMisJuegos() {
             ul.appendChild(li);
         });
 }
+
+anadirJuego?.addEventListener("click", () => {
+    if (modoEliminar) {
+        cancelarModoEliminar();
+        anadirJuego.textContent = "AÑADIR JUEGO";
+        anadirJuego.style.backgroundColor = "";
+        anadirJuego.style.color = "";
+        eliminarJuegos.textContent = "ELIMINAR JUEGOS";
+        eliminarTodo.style.display = "none";
+        return;
+    } else {
+        window.location.href = "anadirJuego.html";
+    }
+});
+
+eliminarTodo?.addEventListener("click", () => {
+    if (!confirm("¿Estás seguro de que quieres eliminar todos tus juegos? Esta acción no se puede deshacer.")) {
+        return;
+    }
+
+    const session = getSession();
+    const myUsername = session?.username ? String(session.username).trim().toLowerCase() : null;
+    if (!myUsername) return;
+
+    const games = load("games", []);
+    const gamesFiltrados = games.filter(g => {
+        const owner = String(g.ownerUsername || "").trim().toLowerCase();
+        return owner !== myUsername; // mantenemos solo los que no son del usuario
+    });
+    localStorage.setItem("games", JSON.stringify(gamesFiltrados));
+    eliminarTodo.style.display = "none";
+    eliminarJuegos.textContent = "ELIMINAR JUEGOS";
+    anadirJuego.style.backgroundColor = "";
+    anadirJuego.style.color = "";
+    anadirJuego.textContent = "AÑADIR JUEGO";
+    renderMisJuegos();
+});
+
+eliminarJuegos?.addEventListener("click", () => {
+    const session = getSession();
+    const myUsername = session?.username ? String(session.username).trim().toLowerCase() : null;
+    const games = load("games", []);
+    const gamesFiltrados = games.filter(g => {
+        const owner = String(g.ownerUsername || "").trim().toLowerCase();
+        return owner === myUsername; // mantenemos solo los que son del usuario
+    });
+    if (gamesFiltrados.length === 0) {
+        alert("No tienes juegos que eliminar.");
+        return;
+    }
+    activarModoEliminar({
+        botonId: "btnEliminarJuegos",
+        listaId: "listaMisJuegos",
+        storageKey: "games"
+    });
+});
 
 document.addEventListener("DOMContentLoaded", renderMisJuegos);

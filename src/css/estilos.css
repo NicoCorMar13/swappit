@@ -553,13 +553,17 @@ p {
     margin-bottom: 20px;
 }
 
-.btnAnadirJuego {
+.btnsMisJuegos button {
+    margin-right: 20px;
+}
+
+/* .btnAnadirJuego {
     margin-left: 0;
 }
 
 .btnEliminarJuegos {
     margin-left: 20px;
-}
+} */
 
 /*======================*/
 
