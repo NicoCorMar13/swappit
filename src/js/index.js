@@ -1,8 +1,4 @@
 // ===== Helpers mínimos (solo para index) =====
-function load(key, fallback) {
-    try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
-    catch { return fallback; }
-}
 
 function shuffle(arr) {
     const a = arr.slice();

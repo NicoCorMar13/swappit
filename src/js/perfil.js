@@ -1,6 +1,7 @@
 const btnEditarContraseña = document.getElementById("btnEditarContraseña");
 const btnEditarPerfil = document.getElementById("btnEditarPerfil");
 const btnCerrarSesion = document.getElementById("btnCerrarSesion");
+const btnEliminarPerfil = document.getElementById("btnEliminarPerfil");
 
 const spanReContraseña = document.querySelector(".perfil_recontraseña");
 
@@ -189,6 +190,94 @@ btnCerrarSesion?.addEventListener("click", (e) => {
         window.location.href = "perfil.html";
     }
 })
+
+btnEliminarPerfil?.addEventListener("click", (e) => {
+    e?.preventDefault?.();
+
+    if (!confirm("¿Estás seguro de que quieres eliminar tu perfil? Esta acción no se puede deshacer.")) return;
+
+    const session = getSession();
+    if (!session) return;
+
+    const myEmail = String(session.email || "").trim().toLowerCase();
+    const myUsername = String(session.username || "").trim().toLowerCase();
+
+    if (!myEmail || !myUsername) {
+        alert("No se pudo identificar correctamente la sesión (email/username).");
+        return;
+    }
+
+    // Helpers genéricos (si ya tienes load/save globales, puedes quitar esto)
+    const load = (key, fallback) => {
+        try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+        catch { return fallback; }
+    };
+    const save = (key, value) => localStorage.setItem(key, JSON.stringify(value));
+
+    // 1) BORRAR USUARIO DE "users"
+    const users = loadUsers(); // tu función
+    const idx = users.findIndex(u => String(u.email || "").trim().toLowerCase() === myEmail);
+    if (idx === -1) return;
+
+    // Nos guardamos el username “real” por si en users lo tienes con mayúsculas
+    const usernameReal = String(users[idx].username || session.username || "").trim();
+    const usernameRealLC = usernameReal.toLowerCase();
+
+    users.splice(idx, 1);
+    saveUsers(users); // tu función
+
+    // 2) BORRAR SUS JUEGOS DE "games"
+    const games = load("games", []);
+    const myGameIds = new Set(
+        games
+            .filter(g => String(g.ownerUsername || "").trim().toLowerCase() === usernameRealLC)
+            .map(g => String(g.id))
+    );
+
+    const gamesFiltrados = games.filter(
+        g => String(g.ownerUsername || "").trim().toLowerCase() !== usernameRealLC
+    );
+    save("games", gamesFiltrados);
+
+    // 3) RECORRER localStorage PARA LIMPIAR FAVORITOS/LIKES DE OTROS
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (!key) continue;
+
+        // 3.a) Favoritos de perfiles: favoritos_<alguien> guarda usernames
+        if (key.startsWith("favoritos_")) {
+            const favUsers = load(key, []);
+            if (Array.isArray(favUsers)) {
+                const nuevo = favUsers.filter(u => String(u).trim().toLowerCase() !== usernameRealLC);
+                // Solo guarda si cambió
+                if (nuevo.length !== favUsers.length) save(key, nuevo);
+            }
+            continue;
+        }
+
+        // 3.b) Likes de juegos: likes_games_<alguien> guarda IDs de juegos
+        if (key.startsWith("likes_games_")) {
+            const liked = load(key, []);
+            if (Array.isArray(liked) && myGameIds.size > 0) {
+                const nuevo = liked.filter(id => !myGameIds.has(String(id)));
+                if (nuevo.length !== liked.length) save(key, nuevo);
+            }
+            continue;
+        }
+
+        // Si tienes más tablas por usuario (chats_, notifs_, etc.), aquí es donde se añadirían.
+    }
+
+    // 4) BORRAR SUS PROPIAS LISTAS (por si acaso quedan)
+    localStorage.removeItem(`favoritos_${usernameReal}`);
+    localStorage.removeItem(`favoritos_${usernameRealLC}`);
+    localStorage.removeItem(`likes_games_${usernameReal}`);
+    localStorage.removeItem(`likes_games_${usernameRealLC}`);
+
+    // 5) CERRAR SESIÓN Y REDIRIGIR
+    clearSession(); // tu función
+    window.location.href = "index.html";
+});
 
 document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById("perfil_nombre")) {

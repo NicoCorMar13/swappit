@@ -9,20 +9,6 @@ const elNombreCompleto = document.querySelector(".nombreCompletoOtroPerfil"); //
 const ulJuegos = document.getElementById("listaJuegosOtroPerfil"); // ejemplo <ul>
 
 // ---------- Helpers base (si ya los tienes en otro archivo, puedes borrar estos) ----------
-function load(key, fallback) {
-    try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
-    catch { return fallback; }
-}
-
-function getSession() {
-    try { return JSON.parse(localStorage.getItem("session")); }
-    catch { return null; }
-}
-
-function loadUsers() {
-    return load("users", []);
-}
-
 function normalizeUsername(u) {
     return String(u || "").trim().toLowerCase();
 }

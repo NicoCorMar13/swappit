@@ -3,11 +3,6 @@ const eliminarJuegos = document.getElementById("btnEliminarJuegos");
 const eliminarTodo = document.getElementById("btnEliminarTodo");
 let modoEliminar = false;
 
-function getSession() {
-    try { return JSON.parse(localStorage.getItem("session")); }
-    catch { return null; }
-}
-
 function cancelarModoEliminar() {
     modoEliminar = false;
     document.querySelectorAll(".checkboxEliminar").forEach(cb => cb.remove());

@@ -1,11 +1,4 @@
 /* ========= helpers (si ya tienes load/save/uid, usa los tuyos) ========= */
-function load(key, fallback = null) {
-    try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
-    catch { return fallback; }
-}
-function save(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-}
 function uid() {
     return (crypto?.randomUUID?.() ?? `g_${Date.now()}_${Math.random().toString(16).slice(2)}`);
 }
