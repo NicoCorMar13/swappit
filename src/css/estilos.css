@@ -478,7 +478,6 @@ p {
     flex-direction: row;
     align-items: center;
     margin: 5px;
-    /* width: 50%; */
 }
 
 .form_favoritos [class^="cabLista"] h2 {
@@ -492,6 +491,17 @@ p {
 .form_favoritos [class^="lista"] {
     text-align: center;
     width: 90%;
+}
+
+.form_favoritos [class^="bot"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn_cancelarPerfilesFav, .btn_cancelarJuegosFav {
+    background-color: red;
+    color: white;
 }
 
 

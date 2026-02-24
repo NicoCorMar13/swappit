@@ -33,6 +33,10 @@ function load(key, fallback) {
     catch { return fallback; }
 }
 
+function save(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+}
+
 function openModal() {
     if (!authModal) return;
     authModal.classList.remove("hidden");

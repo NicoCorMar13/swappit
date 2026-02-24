@@ -34,7 +34,13 @@
             <div class="div_juegosFav">
                 <div class="cabListaJuegosFav">
                     <h2 class="tituloListaFavJuegos">Juegos Favoritos</h2>
-                    <button class="btn_eliminarJuegosFav">ELIMINAR JUEGO</button>
+                    <div class="botJuegosFav">
+                        <button class="btn_eliminarJuegosFav" id="btn_eliminarJuegosFav" type="button">ELIMINAR JUEGO</button>
+                        <button class="btn_eliminarTodoJuegosFav" id="btn_eliminarTodoJuegosFav"
+                            style="display:none;" type="button">ELIMINAR TODO</button>
+                        <button class="btn_cancelarJuegosFav" id="btn_cancelarJuegosFav"
+                            style="display:none;" type="button">CANCELAR</button>
+                    </div>
                 </div>
                 <div class="divlistaJuegosFav">
                     <ul class="listaJuegosFav" id="listaJuegosFav"></ul>
@@ -43,7 +49,13 @@
             <div class="div_perfilesFav">
                 <div class="cabListaPerfilesFav">
                     <h2 class="tituloListaFavPerfil">Perfiles Favoritos</h2>
-                    <button class="btn_eliminarPerfilesFav">ELIMINAR PERFIL</button>
+                    <div class="botPerfilesFav">
+                        <button class="btn_eliminarPerfilesFav" id="btn_eliminarPerfilesFav" type="button">ELIMINAR PERFIL</button>
+                        <button class="btn_eliminarTodoPerfilesFav" id="btn_eliminarTodoPerfilesFav"
+                            style="display:none;" type="button">ELIMINAR TODO</button>
+                        <button class="btn_cancelarPerfilesFav" id="btn_cancelarPerfilesFav"
+                            style="display:none;" type="button">CANCELAR</button>
+                    </div>
                 </div>
                 <div class="divlistaPerfilesFav">
                     <ul class="listaPerfilesFav" id="listaPerfilesFav"></ul>
@@ -55,6 +67,6 @@
 </body>
 
 <script src="src/js/main.js"></script>
-<script src="src/js/favoritos.js"></script>
+<script src="src/js/favoritos.js" defer></script>
 
 </html>
