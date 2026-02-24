@@ -64,10 +64,51 @@ function activarModoEliminar({ botonId, listaId, storageKey }) {
         console.log("IDs eliminados:", idsAEliminar);
         console.log("Games tras borrar:", load(storageKey, []));
 
+        const afectados = purgeGameIdsFromAllLikes(idsAEliminar); // Elimina los juegos de los likes de todos los usuarios
+        console.log(`Juegos eliminados de favoritos de ${afectados} usuarios.`);
+
         //Reset
         modoEliminar = false;
         renderMisJuegos();
     }
+}
+
+function purgeGameIdsFromAllLikes(gids) {
+    const ids = new Set((Array.isArray(gids) ? gids : [gids]).map(x => String(x)));
+
+    const users = load("users", []);
+    if (!Array.isArray(users) || users.length === 0) {
+        console.warn("purgeGameIdsFromAllLikes: no hay users en localStorage");
+        return 0;
+    }
+
+    let touched = 0;
+
+    for (const u of users) {
+        const username = (u?.username ?? "").toString().trim();
+        if (!username) continue;
+
+        // AJUSTA si tu key real es otra
+        const likesKey = `likes_games_${username}`;
+
+        const likes = load(likesKey, []);
+        if (!Array.isArray(likes) || likes.length === 0) continue;
+
+        const before = likes.length;
+
+        // Soporta ["g1","g2"] o [{id:"g1"}, ...]
+        const cleaned = likes.filter(x => {
+            const xid = (typeof x === "object" && x !== null) ? x.id : x;
+            return !ids.has(String(xid));
+        });
+
+        if (cleaned.length !== before) {
+            save(likesKey, cleaned);
+            touched++;
+        }
+    }
+
+    return touched; // nº de usuarios donde se eliminaron likes
 }
 
 function renderMisJuegos() {

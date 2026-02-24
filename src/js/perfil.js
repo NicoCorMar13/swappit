@@ -52,7 +52,6 @@ function bloquearInputs(bloquear) {
     inputNombre.disabled = bloquear;
     inputApellidos.disabled = bloquear;
     inputEmail.disabled = bloquear;
-    inputContraseña.disabled = bloquear;
 }
 
 function guardarCambios() {
@@ -116,6 +115,7 @@ function guardarContraseña() {
 }
 
 btnEditarContraseña?.addEventListener("click", () => {
+    if (!confirm("¿Estás seguro de que quieres editar tu contraseña? Se mostrará la contraseña por pantalla.")) return;
     if (!editMode) {
         editMode = true;
         btnEditarPerfil.style.display = "none";
