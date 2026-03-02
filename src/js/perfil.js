@@ -183,6 +183,7 @@ btnCerrarSesion?.addEventListener("click", (e) => {
     e.preventDefault();
 
     if (!editMode) {
+        if (!confirm("¿Estás seguro de que quieres cerrar sesión?")) return;
         clearSession();//borra localStorage "session"
         sessionStorage.removeItem("authModalSismissed");//permite que nos vuelva a mostrar el modal
         window.location.href = "index.html";
