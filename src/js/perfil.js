@@ -11,6 +11,7 @@ const inputNombre = document.getElementById("perfil_nombre");
 const inputApellidos = document.getElementById("perfil_apellidos");
 const inputEmail = document.getElementById("perfil_email");
 const inputContraseña = document.getElementById("perfil_contraseña");
+const spanReContraseña = document.getElementById("perfil_spanRecontraseña")
 const inputReContraseña = document.getElementById("perfil_recontraseña");
 
 let myId = null;
@@ -131,6 +132,7 @@ btnEditarContraseña?.addEventListener("click", async () => {
         inputReContraseña.value = "";
         inputContraseña.type = "text";
         inputReContraseña.style.display = "";
+        spanReContraseña.style.display = "";
         btnEditarContraseña.textContent = "GUARDAR";
         btnCerrarSesion.textContent = "CANCELAR";
         return;
@@ -142,6 +144,7 @@ btnEditarContraseña?.addEventListener("click", async () => {
     editMode = false;
     inputContraseña.type = "password";
     inputReContraseña.style.display = "none";
+    spanReContraseña.style.display = "none";
     btnEditarContraseña.textContent = "EDITAR CONTRASEÑA";
     btnCerrarSesion.textContent = "CERRAR SESIÓN";
 });
