@@ -35,6 +35,8 @@ async function cargarPerfil(profile) {
     inputApellidos.value = profile.apellidos || "";
     inputEmail.value = profile.email || "";
     inputContraseña.value = profile.password || "";
+    console.log(profile);
+    console.log(profile.password);
 
     bloquearInputs(true);
 }
