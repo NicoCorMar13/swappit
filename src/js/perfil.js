@@ -128,7 +128,6 @@ btnEditarContraseña?.addEventListener("click", async () => {
     if (!editMode) {
         editMode = true;
         inputContraseña.type = "text";
-        inputContraseña.value = profile.password || "";
         inputReContraseña.style.display = "";
         btnEditarContraseña.textContent = "GUARDAR";
         btnCerrarSesion.textContent = "CANCELAR";
