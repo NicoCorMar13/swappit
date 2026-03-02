@@ -1,5 +1,8 @@
 console.log("main cargado");
 
+import { supabase } from "./supabaseClient.js";
+import { getSessionSupabase } from "./session.js";
+
 const authModal = document.getElementById("authModal");
 const viewLogged = document.getElementById("viewLogged");
 const viewGuest = document.getElementById("viewGuest");
@@ -14,33 +17,10 @@ const loginForm = document.getElementById("loginForm");
 const loginEmail = document.getElementById("loginEmail");
 const loginPass = document.getElementById("loginPass");
 
-// Simula tu “sesión” (luego esto será token/backend)
-function getSession() {
-    try { return JSON.parse(localStorage.getItem("session")); }
-    catch { return null; }
-}
-
-function setSession(sessionObj) {
-    localStorage.setItem("session", JSON.stringify(sessionObj));
-}
-
-function clearSession() {
-    localStorage.removeItem("session");
-}
-
-function load(key, fallback) {
-    try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
-    catch { return fallback; }
-}
-
-function save(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-}
-
 function openModal() {
     if (!authModal) return;
     authModal.classList.remove("hidden");
-    document.body.style.overflow = "hidden"; // bloquea scroll
+    document.body.style.overflow = "hidden";
 }
 
 function closeModal() {
@@ -49,89 +29,78 @@ function closeModal() {
     document.body.style.overflow = "";
 }
 
-function loadUsers() {
-    try { return JSON.parse(localStorage.getItem("users")) || []; }
-    catch { return []; }
-}
+async function renderAuthGate() {
+    if (!authModal) return; // si no existe, no hacemos nada (otras páginas)
 
-function saveUsers(users) {
-    localStorage.setItem("users", JSON.stringify(users));
-}
-
-function findUserByEmailOrUsername(raw) {
-    const id = String(raw || "").trim().toLowerCase();
-    if (!id) return null;
-
-    const users = loadUsers();
-    return users.find(u => {
-        const email = String(u.email || "").trim().toLowerCase();
-        const username = String(u.username || "").trim().toLowerCase();
-        return email === id || username === id;
-    }) || null;
-}
-
-// Lógica principal
-function renderAuthGate() {
-    const session = getSession();
+    const s = await getSessionSupabase();
     const dismissed = sessionStorage.getItem("authModalDismissed") === "1";
 
-    //Si ya se cerró y hay sesión, no molestes mas
-    if (session?.name && dismissed) return;
+    // Si ya lo cerraste y SIGUES logueado, no molestes
+    if (s?.profile?.id && dismissed) {
+        closeModal();
+        return;
+    }
 
     openModal();
 
-    if (session?.name) {
-        // Ya logueado
-        viewGuest.classList.add("hidden");
-        viewLogged.classList.remove("hidden");
+    if (s?.profile?.id) {
+        // Ya logueado: mostrar vista "logged"
+        viewGuest?.classList.add("hidden");
+        viewLogged?.classList.remove("hidden");
 
-        welcomeText.textContent = `Hola ${session.name} 👋`;
-        notMeName.textContent = session.name;
+        const nombre = s.profile.name || s.profile.username || "👋";
+        if (welcomeText) welcomeText.textContent = `Hola ${nombre} 👋`;
+        if (notMeName) notMeName.textContent = nombre;
     } else {
-        // No logueado
-        viewLogged.classList.add("hidden");
-        viewGuest.classList.remove("hidden");
+        // No logueado: mostrar form login
+        viewLogged?.classList.add("hidden");
+        viewGuest?.classList.remove("hidden");
     }
 }
 
-// Acciones
+// Botón: continuar (si está logueado, deja de mostrar modal)
 btnContinue?.addEventListener("click", () => {
     sessionStorage.setItem("authModalDismissed", "1");
     closeModal();
-    location.reload(); // recarga para renderizar recomendaciones según sesión
+    // NO recargamos: index.js ya reacciona con watchAuthChanges y pinta recomendados
 });
 
-btnNotMe?.addEventListener("click", () => {
-    clearSession();
+// Botón: no soy yo → cerrar sesión supabase y volver al login
+btnNotMe?.addEventListener("click", async () => {
     sessionStorage.removeItem("authModalDismissed");
-    renderAuthGate(); // vuelve a mostrar login
+    await supabase.auth.signOut();
+    await renderAuthGate();
 });
 
-// Login demo (aquí luego llamas a tu backend)
-loginForm?.addEventListener("submit", (e) => {
+// Login real Supabase
+loginForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const identifier = loginEmail.value.trim();
-    const pass = loginPass.value;
-    const user = findUserByEmailOrUsername(identifier);
+    const email = loginEmail?.value.trim().toLowerCase();
+    const password = loginPass?.value;
 
-    if (!user) {
-        alert("Ese usuario no existe. Regístrate primero.")
+    if (!email || !password) {
+        alert("Completa email y contraseña.");
         return;
     }
 
-    if (user.pass != pass) {
-        alert("Contraseña incorrecta.");
-        return;
+    try {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+
+        sessionStorage.setItem("authModalDismissed", "1");
+        closeModal();
+        // NO llamamos renderRecomendados aquí (eso vive en index.js)
+    } catch (err) {
+        console.error(err);
+        alert(err?.message ?? "Error al iniciar sesión");
     }
-
-    setSession({ username: user.username, name: user.name, email: user.email, ts: Date.now() });
-    sessionStorage.setItem("authModalDismissed", "1");
-    closeModal();
-    renderRecomendados();
 });
 
-// Llama esto al cargar tu app
-document.addEventListener("DOMContentLoaded", () => {
-    if (authModal) renderAuthGate();//Solo en index
+// Mantener modal sincronizado con auth
+supabase.auth.onAuthStateChange(async () => {
+    await renderAuthGate();
 });
+
+// Solo en páginas que tengan authModal (normalmente index)
+document.addEventListener("DOMContentLoaded", renderAuthGate);

@@ -1,3 +1,15 @@
+import { requireSession } from "./session.js";
+
+document.addEventListener("DOMContentLoaded", async () => {
+    await requireSession({
+        redirectTo: "index.html", // o si prefieres: onNoSession: abrir modal
+        onAuthed: async ({ profile }) => {
+            console.log("Mis juegos de:", profile.username);
+            // aquí ya haces la query a Supabase para cargar juegos
+        }
+    });
+});
+
 /* ========= helpers (si ya tienes load/save/uid, usa los tuyos) ========= */
 function uid() {
     return (crypto?.randomUUID?.() ?? `g_${Date.now()}_${Math.random().toString(16).slice(2)}`);

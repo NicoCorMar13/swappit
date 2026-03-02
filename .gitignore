@@ -1,0 +1,13 @@
+# secretos / configs locales
+.env
+.env.*
+
+# dependencias
+node_modules/
+
+# scripts locales (opcional)
+seed.mjs
+
+# basura de sistema
+.DS_Store
+Thumbs.db

@@ -1,4 +1,15 @@
-// ===== Helpers mínimos (solo para index) =====
+import { requireSession, watchAuthChanges, getSessionSupabase } from "./session.js";
+import { supabase } from "./supabaseClient.js";
+
+/* ========================= */
+/* ===== CONFIG ============ */
+/* ========================= */
+
+const RECOM_LIMIT = 10;
+
+/* ========================= */
+/* ===== UTIL ============== */
+/* ========================= */
 
 function shuffle(arr) {
     const a = arr.slice();
@@ -9,73 +20,93 @@ function shuffle(arr) {
     return a;
 }
 
-const RECOM_LIMIT = 10; // <-- X juegos a mostrar (cambia a lo que quieras)
-const SEEN_KEY = "recomendados_seen_ids"; // sessionStorage
+/* ========================= */
+/* ===== RENDER ============ */
+/* ========================= */
 
-// ===== Render lista recomendados =====
-function renderRecomendados() {
+async function renderRecomendados() {
+
     const ul = document.getElementById("listaRecomendados");
     if (!ul) return;
 
-    const games = load("games", []);
-    const session = load("session", null);
-    const myUsername = session?.username ? String(session.username).trim().toLocaleLowerCase() : null;
+    const s = await getSessionSupabase();
+    const myId = s?.profile?.id;
 
-    if (!session) { return;}
+    if (!myId) return;
 
-    // Limpia lo que haya (tus <li> de ejemplo incluidos)
     ul.innerHTML = "";
 
-    const recomendados = games.filter(g => {
-        if (!myUsername) return true; // si no hay sesión, muestro todo
-        const owner = String(g.ownerUsername || "").trim().toLocaleLowerCase();
-        return owner !== myUsername; // si hay sesión, solo muestro los que no son míos
-    });
+    // 🔹 Traemos juegos + dueño
+    const { data: games, error } = await supabase
+        .from("games")
+        .select(`
+      id,
+      title,
+      plataforma,
+      estado,
+      owner_id,
+      profiles:owner_id (
+        username
+      )
+    `)
+        .neq("owner_id", myId) // 👈 no mostrar mis juegos
+        .order("created_at", { ascending: false });
 
-    if (!recomendados.length) {
-        const li = document.createElement("li");
-        li.textContent = myUsername
-            ? "No hay juegos todavía. Usa seedGamesFromUsers(10) en consola."
-            : "No hay juegos todavía";
-        ul.appendChild(li);
+    if (error) {
+        console.error(error);
+        ul.innerHTML = "<li>Error cargando juegos.</li>";
         return;
     }
 
-    const seenIds = (() => {
-        try { return JSON.parse(sessionStorage.getItem(SEEN_KEY)) || []; }
-        catch { return []; }
-    })();
-
-    const notSeen = recomendados.filter(g => !seenIds.includes(g.id));
-    let chosen;
-
-    if (notSeen.length > RECOM_LIMIT) {
-        chosen = shuffle(notSeen).slice(0, RECOM_LIMIT);
-    } else {
-        chosen = shuffle(recomendados).slice(0, Math.min(RECOM_LIMIT, recomendados.length));
+    if (!games?.length) {
+        ul.innerHTML = "<li>No hay juegos disponibles.</li>";
+        return;
     }
 
-    sessionStorage.setItem(SEEN_KEY, JSON.stringify(chosen.map(g => g.id)));
+    const seleccionados = shuffle(games).slice(0, RECOM_LIMIT);
 
-    chosen.forEach(g => {
+    seleccionados.forEach(g => {
         const li = document.createElement("li");
         const a = document.createElement("a");
         a.href = `juego.html?gid=${encodeURIComponent(g.id)}`;
-        a.textContent = `${g.title} - ${g.platform} - ${g.condition} - ${g.ownerUsername}`;
+
+        const owner = g.profiles?.username ? ` - ${g.profiles.username}` : "";
+        a.textContent = `${g.title} - ${g.plataforma} - ${g.estado}${owner}`;
+
         li.appendChild(a);
         ul.appendChild(li);
     });
 }
 
-// ===== Botón refrescar =====
-document.getElementById("btnRefrescar")?.addEventListener("click", renderRecomendados);
+/* ========================= */
+/* ===== EVENTOS =========== */
+/* ========================= */
 
-// Render al cargar la página
-document.addEventListener("DOMContentLoaded", renderRecomendados);
+document.getElementById("btnRefrescar")
+    ?.addEventListener("click", renderRecomendados);
 
+// document.addEventListener("DOMContentLoaded", async () => {
 
-// const btnChat = document.getElementById("btnChat");
+//     await requireSession({
+//         onAuthed: async ({ profile }) => {
+//             closeModal();
+//             await renderRecomendados();
+//         },
+//         onNoSession: () => {
+//             openModal();
+//         }
+//     });
 
-// btnChat.addEventListener("click", () => {
-//     window.location.href = "chats.html";
+//     watchAuthChanges({
+//         onLogin: async () => {
+//             closeModal();
+//             await renderRecomendados();
+//         },
+//         onLogout: () => {
+//             openModal();
+//             const ul = document.getElementById("listaRecomendados");
+//             if (ul) ul.innerHTML = "";
+//         }
+//     });
+
 // });

@@ -1,101 +1,119 @@
-const nombreJuego = document.getElementById("anadirJuego_nombre");
-const descripcion = document.getElementById("anadirJuego_descripcion");
-const plataforma = document.getElementById("anadirJuego_plataforma");
-const estado = document.getElementById("selectorEstado");
-const etiquetas = document.getElementById("anadirJuego_etiquetas");
+import { requireSession } from "./session.js";
+import { supabase } from "./supabaseClient.js";
 
-const gid = new URLSearchParams(location.search).get("gid");
-const game = findGameById(gid);
-if (game) {cargarJuegoParaEdicion();}
+const nombreInput = document.getElementById("anadirJuego_nombre");
+const descripcionInput = document.getElementById("anadirJuego_descripcion");
+const plataformaInput = document.getElementById("anadirJuego_plataforma");
+const estadoInput = document.getElementById("selectorEstado");
+const etiquetasInput = document.getElementById("anadirJuego_etiquetas");
 
-function uid() {
-    return (crypto?.randomUUID?.() ?? `g_${Date.now()}_${Math.random().toString(16).slice(2)}`);
-}
+let myId = null;
+let editingGameId = new URLSearchParams(location.search).get("gid");
 
-function findGameById(gid) {
-    const games = load("games", []);
-    return games.find(g => String(g.id) === String(gid)) || null;
-}
+document.addEventListener("DOMContentLoaded", async () => {
 
-document.getElementById("btnGuardarJuego")?.addEventListener("click", (e) => {
-    e.preventDefault();
+    await requireSession({
+        redirectTo: "index.html",
+        onAuthed: async ({ profile }) => {
+            myId = profile.id;
 
-    const nombreJuego = document.getElementById("anadirJuego_nombre")?.value.trim();
-    const descripcion = document.getElementById("anadirJuego_descripcion")?.value;
-    const plataforma = document.getElementById("anadirJuego_plataforma")?.value.trim();
-    const estado = document.getElementById("selectorEstado")?.value.trim();
-    const etiquetas = document.getElementById("anadirJuego_etiquetas")?.value.trim().toLowerCase();
-
-    if (!nombreJuego || !descripcion || !plataforma || !estado || !etiquetas) {
-        alert("Completa todos los campos.");
-        return;
-    }
-
-    const nombreJuegoNormalizado = String(nombreJuego).trim();
-    const descripcionNormalizada = String(descripcion).trim();
-    const plataformaNormalizada = String(plataforma).trim();
-    const estadoNormalizado = String(estado).trim();
-    const etiquetasNormalizadas = String(etiquetas).trim().toLowerCase();
-    const sesion = load("session");
-    const juegos = load("games", []);
-
-    const data = {
-        id: uid(),
-        title: nombreJuegoNormalizado,
-        description: descripcionNormalizada,
-        platform: plataformaNormalizada,
-        condition: estadoNormalizado,
-        ownerUsername: sesion?.username || null,
-        tags: etiquetasNormalizadas.split(",").map(t => t.trim()),
-        createdAt: Date.now()
-    };
-
-    if (game) {
-        const idx = juegos.findIndex(g => String(g.id) === String(game.id));
-        if (idx === -1) {
-            alert("Error: el juego que intentas editar no se encuentra. Se añadirá como nuevo.");
-            return;
+            if (editingGameId) {
+                await cargarJuegoParaEdicion(editingGameId);
+            }
         }
+    });
 
-        juegos[idx] = { 
-            ...juegos[idx], 
-            ...data, 
-            id: juegos[idx].id, 
-            ownerUsername: juegos[idx].ownerUsername, 
-            createdAt: juegos[idx].createdAt
-        };
+});
 
-        localStorage.setItem("games", JSON.stringify(juegos));
-        alert("Juego editado correctamente.");
+async function cargarJuegoParaEdicion(gid) {
+    const { data, error } = await supabase
+        .from("games")
+        .select("*")
+        .eq("id", gid)
+        .eq("owner_id", myId) // seguridad extra
+        .single();
+
+    if (error || !data) {
+        alert("No puedes editar este juego.");
         window.location.href = "misJuegos.html";
         return;
     }
 
-    const nuevoJuego = {
-        id: uid(),
-        ...data,
-        ownerUsername: sesion?.username || null,
-        createdAt: Date.now()
-    };
+    nombreInput.value = data.title || "";
+    descripcionInput.value = data.descripcion || "";
+    plataformaInput.value = data.plataforma || "";
+    estadoInput.value = data.estado || "";
+    etiquetasInput.value = Array.isArray(data.etiquetas)
+        ? data.etiquetas.join(", ")
+        : "";
+}
 
-    juegos.push(nuevoJuego);
-    localStorage.setItem("games", JSON.stringify(juegos));
+document.getElementById("btnGuardarJuego")?.addEventListener("click", async (e) => {
+    e.preventDefault();
 
-    alert("Juego añadido correctamente.");
+    const title = nombreInput.value.trim();
+    const descripcion = descripcionInput.value.trim();
+    const plataforma = plataformaInput.value.trim();
+    const estado = estadoInput.value.trim();
+    const etiquetas = etiquetasInput.value
+        .trim()
+        .toLowerCase()
+        .split(",")
+        .map(t => t.trim())
+        .filter(Boolean);
+
+    if (!title || !descripcion || !plataforma || !estado || !etiquetas.length) {
+        alert("Completa todos los campos.");
+        return;
+    }
+
+    if (editingGameId) {
+        // EDITAR
+        const { error } = await supabase
+            .from("games")
+            .update({
+                title,
+                descripcion,
+                plataforma,
+                estado,
+                etiquetas
+            })
+            .eq("id", editingGameId)
+            .eq("owner_id", myId);
+
+        if (error) {
+            console.error(error);
+            alert("Error editando juego");
+            return;
+        }
+
+        alert("Juego editado correctamente.");
+    } else {
+        // CREAR
+        const { error } = await supabase
+            .from("games")
+            .insert({
+                owner_id: myId,
+                title,
+                descripcion,
+                plataforma,
+                estado,
+                etiquetas
+            });
+
+        if (error) {
+            console.error(error);
+            alert("Error creando juego");
+            return;
+        }
+
+        alert("Juego añadido correctamente.");
+    }
+
     window.location.href = "misJuegos.html";
 });
-
-/*Parte en la que venimos desde la vista de tu juego para editarlo*/
-function cargarJuegoParaEdicion() {
-    nombreJuego.value = game.title || "";
-    descripcion.value = game.description || "";
-    plataforma.value = game.platform || "";
-    estado.value = game.condition || "";
-    etiquetas.value = Array.isArray(game.tags) ? game.tags.join(", ") : (game.tags || "");
-}
 
 document.getElementById("btnCancelar")?.addEventListener("click", (e) => {
     e.preventDefault();
     window.location.href = "misJuegos.html";
-    console.log("click cancelar");
 });
