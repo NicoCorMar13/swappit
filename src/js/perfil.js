@@ -34,7 +34,7 @@ async function cargarPerfil(profile) {
     inputNombre.value = profile.name || "";
     inputApellidos.value = profile.apellidos || "";
     inputEmail.value = profile.email || "";
-    inputContraseña.value = "********";
+    inputContraseña.value = profile.password || "";
 
     bloquearInputs(true);
 }
