@@ -34,9 +34,7 @@ async function cargarPerfil(profile) {
     inputNombre.value = profile.name || "";
     inputApellidos.value = profile.apellidos || "";
     inputEmail.value = profile.email || "";
-    inputContraseña.value = profile.password || "";
-    console.log(profile);
-    console.log(profile.password);
+    inputContraseña.value = "************";
 
     bloquearInputs(true);
 }
@@ -129,6 +127,8 @@ btnEditarContraseña?.addEventListener("click", async () => {
 
     if (!editMode) {
         editMode = true;
+        inputContraseña.value = "";
+        inputReContraseña.value = "";
         inputContraseña.type = "text";
         inputReContraseña.style.display = "";
         btnEditarContraseña.textContent = "GUARDAR";
