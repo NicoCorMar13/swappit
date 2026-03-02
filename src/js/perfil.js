@@ -133,6 +133,8 @@ btnEditarContraseña?.addEventListener("click", async () => {
         inputContraseña.type = "text";
         inputReContraseña.style.display = "";
         spanReContraseña.style.display = "";
+        inputContraseña.disabled = "true";
+        inputReContraseña.disabled = "true";
         btnEditarContraseña.textContent = "GUARDAR";
         btnCerrarSesion.textContent = "CANCELAR";
         return;
@@ -145,6 +147,8 @@ btnEditarContraseña?.addEventListener("click", async () => {
     inputContraseña.type = "password";
     inputReContraseña.style.display = "none";
     spanReContraseña.style.display = "none";
+    inputContraseña.disabled = "false";
+    inputReContraseña.disabled = "false";
     btnEditarContraseña.textContent = "EDITAR CONTRASEÑA";
     btnCerrarSesion.textContent = "CERRAR SESIÓN";
 });
