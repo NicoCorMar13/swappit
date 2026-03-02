@@ -85,28 +85,28 @@ async function renderRecomendados() {
 document.getElementById("btnRefrescar")
     ?.addEventListener("click", renderRecomendados);
 
-// document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
-//     await requireSession({
-//         onAuthed: async ({ profile }) => {
-//             closeModal();
-//             await renderRecomendados();
-//         },
-//         onNoSession: () => {
-//             openModal();
-//         }
-//     });
+    await requireSession({
+        onAuthed: async ({ profile }) => {
+            closeModal();
+            await renderRecomendados();
+        },
+        onNoSession: () => {
+            openModal();
+        }
+    });
 
-//     watchAuthChanges({
-//         onLogin: async () => {
-//             closeModal();
-//             await renderRecomendados();
-//         },
-//         onLogout: () => {
-//             openModal();
-//             const ul = document.getElementById("listaRecomendados");
-//             if (ul) ul.innerHTML = "";
-//         }
-//     });
+    watchAuthChanges({
+        onLogin: async () => {
+            closeModal();
+            await renderRecomendados();
+        },
+        onLogout: () => {
+            openModal();
+            const ul = document.getElementById("listaRecomendados");
+            if (ul) ul.innerHTML = "";
+        }
+    });
 
-// });
+});
