@@ -34,6 +34,7 @@ async function cargarPerfil(profile) {
     inputNombre.value = profile.name || "";
     inputApellidos.value = profile.apellidos || "";
     inputEmail.value = profile.email || "";
+    inputContraseña.value = "********";
 
     bloquearInputs(true);
 }
@@ -127,6 +128,7 @@ btnEditarContraseña?.addEventListener("click", async () => {
     if (!editMode) {
         editMode = true;
         inputContraseña.type = "text";
+        inputContraseña.value = profile.password || "";
         inputReContraseña.style.display = "";
         btnEditarContraseña.textContent = "GUARDAR";
         btnCerrarSesion.textContent = "CANCELAR";
