@@ -18,6 +18,14 @@ function norm(s) {
     return String(s || "").trim().toLowerCase();
 }
 
+function load(key, fallback = null) {
+    try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+    catch { return fallback; }
+}
+function save(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+}
+
 /* =========================================================
 1) SEMILLA DE USUARIOS (los de tu captura)
 - key: "users"
@@ -208,6 +216,7 @@ function seedGamesRandomForAdmin(n = 20, { overwrite = false } = {}) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem(SEED_FLAG) === "1") return;
     let games = load("games", []);
     seedUsers();
     if (games.length === 0) {
@@ -219,4 +228,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (adminGames.length === 0) {
         seedGamesRandomForAdmin(20);
     }
+
+    localStorage.setItem(SEED_FLAG, "1");
 });
