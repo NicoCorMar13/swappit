@@ -17,6 +17,7 @@ function shuffle(arr) {
         const j = Math.floor(Math.random() * (i + 1));
         [a[i], a[j]] = [a[j], a[i]];
     }
+    console.log("Hemos creado array");
     return a;
 }
 
@@ -31,6 +32,8 @@ async function renderRecomendados() {
 
     const s = await getSessionSupabase();
     const myId = s?.profile?.id;
+
+    console.log("Hasta aqui hemos llegado 5");
 
     if (!myId) return;
 
@@ -52,11 +55,15 @@ async function renderRecomendados() {
         .neq("owner_id", myId) // 👈 no mostrar mis juegos
         .order("created_at", { ascending: false });
 
+        console.log("Hasta aqui hemos llegado 6");
+
     if (error) {
         console.error(error);
         ul.innerHTML = "<li>Error cargando juegos.</li>";
         return;
     }
+
+    console.log("Hasta aqui hemos llegado 7");
 
     if (!games?.length) {
         ul.innerHTML = "<li>No hay juegos disponibles.</li>";
@@ -76,6 +83,8 @@ async function renderRecomendados() {
         li.appendChild(a);
         ul.appendChild(li);
     });
+
+    console.log("Hasta aqui hemos llegado 8");
 }
 
 /* ========================= */
@@ -91,9 +100,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         onAuthed: async ({ profile }) => {
             closeModal();
             await renderRecomendados();
+            console.log("Hasta aqui hemos llegado 1");
         },
         onNoSession: () => {
             openModal();
+            console.log("Hasta aqui hemos llegado 2");
         }
     });
 
@@ -101,11 +112,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         onLogin: async () => {
             closeModal();
             await renderRecomendados();
+            console.log("Hasta aqui hemos llegado 3");
         },
         onLogout: () => {
             openModal();
             const ul = document.getElementById("listaRecomendados");
             if (ul) ul.innerHTML = "";
+            console.log("Hasta aqui hemos llegado 4");
         }
     });
 
