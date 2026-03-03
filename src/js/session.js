@@ -1,5 +1,4 @@
 import { supabase } from "./supabaseClient.js";
-import { getMyProfile } from "./authSupabase.js";
 
 /**
  * Devuelve { me, profile } o null

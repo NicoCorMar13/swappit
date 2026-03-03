@@ -29,34 +29,34 @@ window.closeModal = function () {
     document.body.style.overflow = "";
 }
 
-async function renderAuthGate() {
-    if (!authModal) return; // si no existe, no hacemos nada (otras páginas)
+// async function renderAuthGate() {
+//     if (!authModal) return; // si no existe, no hacemos nada (otras páginas)
 
-    const s = await getSessionSupabase();
-    const dismissed = sessionStorage.getItem("authModalDismissed") === "1";
+//     const s = await getSessionSupabase();
+//     const dismissed = sessionStorage.getItem("authModalDismissed") === "1";
 
-    // Si ya lo cerraste y SIGUES logueado, no molestes
-    if (s?.profile?.id && dismissed) {
-        closeModal();
-        return;
-    }
+//     // Si ya lo cerraste y SIGUES logueado, no molestes
+//     if (s?.profile?.id && dismissed) {
+//         closeModal();
+//         return;
+//     }
 
-    openModal();
+//     openModal();
 
-    if (s?.profile?.id) {
-        // Ya logueado: mostrar vista "logged"
-        viewGuest?.classList.add("hidden");
-        viewLogged?.classList.remove("hidden");
+//     if (s?.profile?.id) {
+//         // Ya logueado: mostrar vista "logged"
+//         viewGuest?.classList.add("hidden");
+//         viewLogged?.classList.remove("hidden");
 
-        const nombre = s.profile.name || s.profile.username || "👋";
-        if (welcomeText) welcomeText.textContent = `Hola ${nombre} 👋`;
-        if (notMeName) notMeName.textContent = nombre;
-    } else {
-        // No logueado: mostrar form login
-        viewLogged?.classList.add("hidden");
-        viewGuest?.classList.remove("hidden");
-    }
-}
+//         const nombre = s.profile.name || s.profile.username || "👋";
+//         if (welcomeText) welcomeText.textContent = `Hola ${nombre} 👋`;
+//         if (notMeName) notMeName.textContent = nombre;
+//     } else {
+//         // No logueado: mostrar form login
+//         viewLogged?.classList.add("hidden");
+//         viewGuest?.classList.remove("hidden");
+//     }
+// }
 
 // Botón: continuar (si está logueado, deja de mostrar modal)
 btnContinue?.addEventListener("click", () => {
@@ -98,9 +98,9 @@ loginForm?.addEventListener("submit", async (e) => {
 });
 
 // Mantener modal sincronizado con auth
-supabase.auth.onAuthStateChange(async () => {
-    await renderAuthGate();
-});
+// supabase.auth.onAuthStateChange(async () => {
+//     await renderAuthGate();
+// });
 
 // Solo en páginas que tengan authModal (normalmente index)
-document.addEventListener("DOMContentLoaded", renderAuthGate);
+// document.addEventListener("DOMContentLoaded", renderAuthGate);

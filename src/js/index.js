@@ -33,6 +33,40 @@ async function waitForSession(ms = 1500) {
     return null;
 }
 
+async function bootIndex() {
+    const ul = document.getElementById("listaRecomendados");
+    if (!ul) return;
+
+    // 1) Sesión auth (rápido)
+    const { data } = await supabase.auth.getSession();
+    const session = data?.session;
+
+    if (!session?.user?.id) {
+        openModal();
+        ul.innerHTML = "<li>Inicia sesión para ver recomendados.</li>";
+        return;
+    }
+
+    // 2) Perfil (puede tardar)
+    const s = await getSessionSupabase();
+    const myId = s?.profile?.id;
+
+    if (!myId) {
+        // hay sesión pero no perfil todavía / fallo puntual
+        // reintenta 1 vez tras un tick
+        await new Promise(r => setTimeout(r, 150));
+        const s2 = await getSessionSupabase();
+        if (!s2?.profile?.id) {
+            openModal();
+            ul.innerHTML = "<li>Error cargando tu perfil. Recarga o prueba de nuevo.</li>";
+            return;
+        }
+    }
+
+    closeModal();
+    await renderRecomendados();
+}
+
 /* ========================= */
 /* ===== RENDER ============ */
 /* ========================= */
@@ -113,9 +147,6 @@ async function renderRecomendados() {
 //     });
 
 document.addEventListener("DOMContentLoaded", async () => {
-
-    await waitForSession();
-
     const btn = document.getElementById("btnRefrescar");
     console.log("btnRefrescar encontrado?", !!btn);
 
@@ -126,29 +157,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         await renderRecomendados();
     });
 
-    await requireSession({
-        onAuthed: async () => {
-            closeModal();
-            await renderRecomendados();
-            console.log("Hasta aqui hemos llegado 1");
-        },
-        onNoSession: () => {
-            openModal();
-            console.log("Hasta aqui hemos llegado 2");
-        }
-    });
+    await bootIndex();
 
-    watchAuthChanges({
-        onLogin: async () => {
-            closeModal();
-            await renderRecomendados();
-            console.log("Hasta aqui hemos llegado 3");
-        },
-        onLogout: () => {
-            openModal();
-            const ul = document.getElementById("listaRecomendados");
-            if (ul) ul.innerHTML = "";
-            console.log("Hasta aqui hemos llegado 4");
+    supabase.auth.onAuthStateChange(async (event) => {
+        if (event === "SIGNED_IN" || event === "SIGNED_OUT") {
+            await bootIndex();
         }
     });
 
