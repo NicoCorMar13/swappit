@@ -22,6 +22,16 @@ function shuffle(arr) {
     return a;
 }
 
+async function waitForSession(ms = 1500) {
+    const start = Date.now();
+    while (Date.now() - start < ms) {
+        const { data } = await supabase.auth.getSession();
+        if (data?.session) return data.session;
+        await new Promise(r => setTimeout(r, 80));
+    }
+    return null;
+}
+
 /* ========================= */
 /* ===== RENDER ============ */
 /* ========================= */
@@ -36,7 +46,10 @@ async function renderRecomendados() {
 
     console.log("Hasta aqui hemos llegado 5");
 
-    if (!myId) return;
+    if (!myId) {
+        ul.innerHTML = "<li>Inicia sesión para ver recomendados.</li>";
+        return;
+    }
 
     ul.innerHTML = "";
 
@@ -99,6 +112,8 @@ async function renderRecomendados() {
 //     });
 
 document.addEventListener("DOMContentLoaded", async () => {
+
+    await waitForSession();
 
     const btn = document.getElementById("btnRefrescar");
     console.log("btnRefrescar encontrado?", !!btn);
