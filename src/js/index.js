@@ -1,6 +1,8 @@
 import { requireSession, watchAuthChanges, getSessionSupabase } from "./session.js";
 import { supabase } from "./supabaseClient.js";
 
+console.log("index cargado ✅");
+
 /* ========================= */
 /* ===== CONFIG ============ */
 /* ========================= */
