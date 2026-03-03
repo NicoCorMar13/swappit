@@ -9,9 +9,13 @@ export async function getSessionSupabase() {
     const session = data?.session ?? null;
     if (!session?.user) return null;
 
-    const me = session.user;
-    const profile = await getMyProfile(); // lee public.profiles por id
-    return { me, profile };
+    const { data: profile } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", session.user.id)
+    .single();
+
+    return { session, profile: profile ?? null };
 }
 
 /**
@@ -19,16 +23,26 @@ export async function getSessionSupabase() {
  * - si NO hay sesión -> abre tu modal/ventana login (o redirige)
  * - si hay sesión -> ejecuta onAuthed
  */
-export async function requireSession({ onAuthed, onNoSession, redirectTo } = {}) {
-    const s = await getSessionSupabase();
+export async function requireSession({ onAuthed, onNoSession } = {}) {
+    const { data } = await supabase.auth.getSession();
+    const session = data?.session;
 
-    if (!s) {
-        if (typeof onNoSession === "function") onNoSession();
-        else if (redirectTo) window.location.href = redirectTo;
+    console.log("requireSession session?", !!session);
+
+    if (!session?.user?.id) {
+        onNoSession?.();
         return null;
     }
 
-    if (typeof onAuthed === "function") await onAuthed(s);
+    //Si hay auth session, trae perfil
+    const s = await getSessionSupabase();
+    if (!s?.profile?.id) {
+        //Hay sesion pero no perfil (raro), trátalo como no-session o maneja error
+        onNoSession?.();
+        return null;
+    }
+
+    await onAuthed?.({ session: s.session, profile: s.profile });
     return s;
 }
 
@@ -37,9 +51,12 @@ export async function requireSession({ onAuthed, onNoSession, redirectTo } = {})
  * Además, reacciona a login/logout sin recargar
  */
 export function watchAuthChanges({ onLogin, onLogout } = {}) {
-    supabase.auth.onAuthStateChange(async (_event, _session) => {
-        const s = await getSessionSupabase();
-        if (s) onLogin?.(s);
-        else onLogout?.();
+    supabase.auth.onAuthStateChange(async (event) => {
+        if (event === "SIGNED _IN") {
+            await onLogin?.();
+        }
+        if (event == "SIGNED_OUT") {
+            onLogout?.();
+        }
     });
 }

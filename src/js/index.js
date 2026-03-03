@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     await requireSession({
-        onAuthed: async ({ profile }) => {
+        onAuthed: async () => {
             closeModal();
             await renderRecomendados();
             console.log("Hasta aqui hemos llegado 1");
