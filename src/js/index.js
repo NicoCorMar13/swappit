@@ -43,6 +43,7 @@ async function bootIndex() {
 
     if (!session?.user?.id) {
         openModal();
+        showLoginView?.();
         ul.innerHTML = "<li>Inicia sesión para ver recomendados.</li>";
         return;
     }
@@ -63,6 +64,8 @@ async function bootIndex() {
         }
     }
 
+    const nombre = s.profile.name || s.profile.username || "👋";
+    showLoggedView?.(nombre);
     closeModal();
     await renderRecomendados();
 }

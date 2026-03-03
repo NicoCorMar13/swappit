@@ -29,6 +29,20 @@ window.closeModal = function () {
     document.body.style.overflow = "";
 }
 
+window.showLoginView = function () {
+    // mostrar formulario de login
+    viewLogged?.classList.add("hidden");
+    viewGuest?.classList.remove("hidden");
+};
+
+window.showLoggedView = function (nombre = "👋") {
+    // mostrar vista logged
+    viewGuest?.classList.add("hidden");
+    viewLogged?.classList.remove("hidden");
+    if (welcomeText) welcomeText.textContent = `Hola ${nombre} 👋`;
+    if (notMeName) notMeName.textContent = nombre;
+};
+
 // async function renderAuthGate() {
 //     if (!authModal) return; // si no existe, no hacemos nada (otras páginas)
 
