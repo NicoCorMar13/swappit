@@ -92,13 +92,23 @@ async function renderRecomendados() {
 /* ===== EVENTOS =========== */
 /* ========================= */
 
-document.getElementById("btnRefrescar")
-    ?.addEventListener("click", (e) => {
-        e.preventDefault();
-        renderRecomendados;
-    });
+// document.getElementById("btnRefrescar")
+//     ?.addEventListener("click", (e) => {
+//         e.preventDefault();
+//         renderRecomendados;
+//     });
 
 document.addEventListener("DOMContentLoaded", async () => {
+
+    const btn = document.getElementById("btnRefrescar");
+    console.log("btnRefrescar encontrado?", !!btn);
+
+    btn?.addEventListener("click", async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("CLICK refrescar ✅");
+        await renderRecomendados();
+    });
 
     await requireSession({
         onAuthed: async ({ profile }) => {
@@ -127,5 +137,3 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
 });
-
-// renderRecomendados();
