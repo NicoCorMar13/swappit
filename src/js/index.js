@@ -1,6 +1,5 @@
 import { requireSession, watchAuthChanges, getSessionSupabase } from "./session.js";
 import { supabase } from "./supabaseClient.js";
-import { openModal, closeModal } from "./main.js";
 
 /* ========================= */
 /* ===== CONFIG ============ */
