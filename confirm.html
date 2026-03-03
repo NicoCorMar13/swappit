@@ -13,43 +13,43 @@
     <script type="module">
         import { supabase } from "./supabaseClient.js";
 
-        function qsHash() {
-            return new URLSearchParams(window.location.hash.replace(/^#/, ""));
+        async function handleConfirm() {
+            try {
+                const url = new URL(window.location.href);
+                const code = url.searchParams.get("code");
+
+                // Caso 1: viene ?code=...
+                if (code) {
+                    const { error } = await supabase.auth.exchangeCodeForSession(window.location.href);
+                    if (error) throw error;
+                    window.location.href = "./index.html";
+                    return;
+                }
+
+                // Caso 2: viene #access_token=...
+                const hashParams = new URLSearchParams(window.location.hash.substring(1));
+                const access_token = hashParams.get("access_token");
+                const refresh_token = hashParams.get("refresh_token");
+
+                if (access_token && refresh_token) {
+                    const { error } = await supabase.auth.setSession({
+                        access_token,
+                        refresh_token
+                    });
+                    if (error) throw error;
+                    window.location.href = "./index.html";
+                    return;
+                }
+
+                document.body.innerHTML = "<p>No se encontraron credenciales en la URL.</p>";
+
+            } catch (e) {
+                document.body.innerHTML = `<p>Error confirmando: ${e.message}</p>`;
+                console.error(e);
+            }
         }
 
-        try {
-            const url = new URL(window.location.href);
-            const code = url.searchParams.get("code");
-
-            // 1) Si viene ?code=... (PKCE)
-            if (code) {
-                const { error } = await supabase.auth.exchangeCodeForSession(window.location.href);
-                if (error) throw error;
-                window.location.href = "./index.html";
-                return;
-            }
-
-            // 2) Si viene #access_token=...&refresh_token=... (implícito)
-            const h = qsHash();
-            const access_token = h.get("access_token");
-            const refresh_token = h.get("refresh_token");
-
-            if (access_token && refresh_token) {
-                const { error } = await supabase.auth.setSession({ access_token, refresh_token });
-                if (error) throw error;
-                window.location.href = "./index.html";
-                return;
-            }
-
-            // 3) Si no vino nada de lo esperado, muestra info útil
-            document.body.innerHTML = `
-                <p>No se encontró "code" ni tokens en la URL.</p>
-                <pre>${window.location.href}</pre>
-            `;
-        } catch (e) {
-            document.body.innerHTML = `<p>Error confirmando: ${e?.message ?? e}</p>`;
-            console.error(e);
-        }
+        handleConfirm();
     </script>
 </body>
 
