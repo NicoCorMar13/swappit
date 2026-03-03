@@ -1,5 +1,6 @@
 import { requireSession, watchAuthChanges, getSessionSupabase } from "./session.js";
 import { supabase } from "./supabaseClient.js";
+import { openModal, closeModal } from "./main.js";
 
 /* ========================= */
 /* ===== CONFIG ============ */
@@ -55,7 +56,7 @@ async function renderRecomendados() {
         .neq("owner_id", myId) // 👈 no mostrar mis juegos
         .order("created_at", { ascending: false });
 
-        console.log("Hasta aqui hemos llegado 6");
+    console.log("Hasta aqui hemos llegado 6");
 
     if (error) {
         console.error(error);
@@ -92,7 +93,10 @@ async function renderRecomendados() {
 /* ========================= */
 
 document.getElementById("btnRefrescar")
-    ?.addEventListener("click", renderRecomendados);
+    ?.addEventListener("click", (e) => {
+        e.preventDefault();
+        renderRecomendados;
+    });
 
 document.addEventListener("DOMContentLoaded", async () => {
 

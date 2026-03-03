@@ -17,13 +17,13 @@ const loginForm = document.getElementById("loginForm");
 const loginEmail = document.getElementById("loginEmail");
 const loginPass = document.getElementById("loginPass");
 
-function openModal() {
+export function openModal() {
     if (!authModal) return;
     authModal.classList.remove("hidden");
     document.body.style.overflow = "hidden";
 }
 
-function closeModal() {
+export function closeModal() {
     if (!authModal) return;
     authModal.classList.add("hidden");
     document.body.style.overflow = "";
