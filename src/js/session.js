@@ -52,6 +52,7 @@ export async function requireSession({ onAuthed, onNoSession } = {}) {
  */
 export function watchAuthChanges({ onLogin, onLogout } = {}) {
     supabase.auth.onAuthStateChange(async (event) => {
+        console.log("Auth event:", event, "session?", !!session);
         if (event === "SIGNED_IN") {
             await onLogin?.();
         }
@@ -59,6 +60,5 @@ export function watchAuthChanges({ onLogin, onLogout } = {}) {
             onLogout?.();
         }
 
-        console.log("Auth event:", event);
     });
 }
