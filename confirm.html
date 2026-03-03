@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Confirmando…</title>
+</head>
+
+<body>
+    <p>Confirmando correo…</p>
+
+    <script type="module">
+        import { supabase } from "./supabaseClient.js";
+
+        // Para flujos PKCE (típicos en SPAs):
+        const { data, error } = await supabase.auth.exchangeCodeForSession(window.location.href);
+
+        if (error) {
+            document.body.innerHTML = `<p>Error confirmando: ${error.message}</p>`;
+        } else {
+            // Ya tienes sesión (si está configurado persistSession:true)
+            window.location.href = "./index.html";
+        }
+    </script>
+</body>
+
+</html>
