@@ -58,5 +58,7 @@ export function watchAuthChanges({ onLogin, onLogout } = {}) {
         if (event == "SIGNED_OUT") {
             onLogout?.();
         }
+
+        console.log("Auth event:", event);
     });
 }
