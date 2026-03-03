@@ -55,7 +55,7 @@ export function watchAuthChanges({ onLogin, onLogout } = {}) {
         if (event === "SIGNED_IN") {
             await onLogin?.();
         }
-        if (event == "SIGNED_OUT") {
+        if (event === "SIGNED_OUT") {
             onLogout?.();
         }
 
