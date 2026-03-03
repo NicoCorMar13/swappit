@@ -6,7 +6,7 @@ export async function signUp({ email, password, username, name, apellidos }) {
         password,
         options: {
             data: { username, name, apellidos }, // va a raw_user_meta_data para el trigger
-            emailRedirectTo: "https://cormar13.github.io/swappit/confirm.html"
+            emailRedirectTo: "https://nicocormar13.github.io/swappit/confirm.html"
         }
     });
     if (error) throw error;
